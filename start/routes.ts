@@ -20,6 +20,5 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', 'IndicesController.index').as('index')
-
-Route.get('/about', 'AboutsController.index').as('about/about')
+Route.get('/', 'HomeController.index').as('home/index')
+Route.get('/about', 'HomeController.about').as('home/about')
