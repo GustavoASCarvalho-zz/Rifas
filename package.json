@@ -36,6 +36,7 @@
     "@popperjs/core": "^2.9.2",
     "bootstrap": "^5.0.0",
     "luxon": "^1.26.0",
+    "pg": "^8.6.0",
     "phc-argon2": "^1.1.1",
     "phc-bcrypt": "^1.0.7",
     "proxy-addr": "^2.0.6",
