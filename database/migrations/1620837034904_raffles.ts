@@ -6,8 +6,8 @@ export default class Raffles extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.integer('user_id').notNullable()
-      table.integer('type_id').notNullable()
+      table.integer('user_id').notNullable().references('id').inTable('users')
+      table.integer('type_id').notNullable().references('id').inTable('raffles')
       table.string('title', 45).notNullable()
       table.string('description')
       table.dateTime('likely_raffle_date').notNullable()
