@@ -35,7 +35,6 @@ Na raiz do projeto
 
 - Rifas
 - Usuarios
-- Legendas
 - Tipos
 - Prêmios
 - Bilhetes
@@ -44,7 +43,11 @@ Na raiz do projeto
 
 - [x] Implementação do [AdonisJS](https://adonisjs.com/)
 - [x] Criação de rotas primarias (Home, About)
-- [ ] ???
+- [x] Implementação do [Bootstrap](https://getbootstrap.com/)
+- [x] Implementação do banco de dados SQLite3
+- [x] Models e imigrations aplicados
+- [x] Autenticação adicionada
+- [ ] Estilização de paginas
 - [ ] ???
 - [ ] ???
 

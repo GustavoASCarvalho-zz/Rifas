@@ -12,9 +12,4 @@ $custom-colors: (
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
-a:hover {
-  transition: all 0.3s;
-  transform: scale(1.1);
-}
-
 @import '~bootstrap/scss/bootstrap';
