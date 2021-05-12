@@ -23,7 +23,6 @@ Requisitos
 Na raiz do projeto
 
 - Criar o arquivo .env seguindo os padrões do .env.example
-- Criar a pasta tmp
 
 ```shell
   npm i                   # Instala as dependencias do projeto
