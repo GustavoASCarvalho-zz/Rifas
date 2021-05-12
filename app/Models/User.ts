@@ -19,6 +19,9 @@ export default class User extends BaseModel {
   public admin: boolean
 
   @column()
+  public photo: string
+
+  @column()
   public rememberMeToken?: string
 
   @column.dateTime({ autoCreate: true })
