@@ -8,15 +8,17 @@ Você acaba de encontrar nosso repositório de gerenciamento de rifas no GitHub,
 ## Index
 
 - [Index](#index)
-- [Como usar](#como-usar)
+- [Como rodar o projeto](#como-rodar-o-projeto)
 - [Classes do projeto](#classes-do-projeto)
 - [CheckList do projeto](#checklist-do-projeto)
 - [Participantes](#participantes)
 
 
-## Como usar
+## Como rodar o projeto
 
 Na raiz do projeto
+
+- Criar o arquivo .env seguindo os padrões do .env.example
 
 ``` shell
   npm i                # Instala as dependencias do projeto
