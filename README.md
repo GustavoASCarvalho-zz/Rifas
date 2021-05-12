@@ -19,10 +19,12 @@ Você acaba de encontrar nosso repositório de gerenciamento de rifas no GitHub,
 Na raiz do projeto
 
 - Criar o arquivo .env seguindo os padrões do .env.example
+- Criar a pasta tmp
 
 ``` shell
-  npm i                # Instala as dependencias do projeto
-  node ace serve       # Roda um servidor local para visualização do projeto
+  npm i                   # Instala as dependencias do projeto
+  node ace migration:run  # Inicializa o banco de dados
+  node ace serve          # Roda um servidor local para visualização do projeto
 ```
 
 ## Classes do projeto
