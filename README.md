@@ -8,13 +8,13 @@ Você acaba de encontrar nosso repositório de gerenciamento de rifas no GitHub,
 ## Index
 
 - [Index](#index)
-- [Como rodar o projeto](#como-rodar-o-projeto)
-- [Classes do projeto](#classes-do-projeto)
-- [CheckList do projeto](#checklist-do-projeto)
+- [Como rodar](#como-rodar)
+- [Classes](#classes)
+- [CheckList](#checklist)
 - [Participantes](#participantes)
 
 
-## Como rodar o projeto
+## Como rodar
 
 Na raiz do projeto
 
@@ -27,7 +27,7 @@ Na raiz do projeto
   node ace serve          # Roda um servidor local para visualização do projeto
 ```
 
-## Classes do projeto
+## Classes
 - Rifas
 - Usuarios
 - Legendas
@@ -35,7 +35,7 @@ Na raiz do projeto
 - Prêmios
 - Bilhetes
 
-## CheckList do projeto
+## CheckList
 
 - [x] Implementação do [AdonisJS](https://adonisjs.com/)
 - [x] Criação de rotas primarias (Home, About)
