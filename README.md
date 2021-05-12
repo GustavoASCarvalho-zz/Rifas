@@ -15,6 +15,11 @@ Você acaba de encontrar nosso repositório de gerenciamento de rifas no GitHub,
 
 ## Como rodar
 
+Requisitos
+
+- nodejs^14.17.0
+- npm^6.14.12
+
 Na raiz do projeto
 
 - Criar o arquivo .env seguindo os padrões do .env.example
