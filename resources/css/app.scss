@@ -1,0 +1,20 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
+$custom-colors: (
+  'primaria': #eaf0ce,
+  'secundaria': #0f3e69,
+  'terciaria': #c1292e,
+  'quartenaria': #ffaff0,
+  'quintenaria': #508991,
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+a:hover {
+  transition: all 0.3s;
+  transform: scale(1.1);
+}
+
+@import '~bootstrap/scss/bootstrap';

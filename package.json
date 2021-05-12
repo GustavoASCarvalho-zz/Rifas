@@ -19,6 +19,8 @@
     "eslint-plugin-prettier": "^3.4.0",
     "pino-pretty": "^4.8.0",
     "prettier": "^2.3.0",
+    "sass": "^1.32.12",
+    "sass-loader": "^11.0.0",
     "typescript": "^4.2.4",
     "youch": "^2.2.2",
     "youch-terminal": "^1.1.1"
