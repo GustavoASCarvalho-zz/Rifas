@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="rifa" src="public/rifa.png" width="100px" />
+  <img alt="rifa" src="https://lh3.googleusercontent.com/proxy/txAH-3roeu3zXOBucbeEl1weJ02cnWMfdxgK1pyrqnvaXnxkcGlZdrL_W41G7YvX9Sowxh0opZFDNyurWk2V35JAwnxXeDzrtb5WZHHMw49AbKY78D1rZS1eQHJ_YektUrHipVsTf3XQQTuQ3RZYqYK0vBEip7o06rKwIjmxAmo5soRH8N0n0VhnIHj_0GZ5S8TiuApokbBA_oEA1I04DHmD1mLAYocfz8_xl0N5oiFZ4scrDof0JyQd5IHMLnXdNeUTBG6uA-lZPu2VpJ-rrp63SID8RDvrccUX4J0EHHBB1EajXK6usDL3G8nOKOHZ" width="100px" />
   <h1 align="center">Gerênciamento de rifas</h1>
 </p>
 
@@ -8,24 +8,26 @@ Você acaba de encontrar nosso repositório de gerenciamento de rifas no GitHub,
 ## Index
 
 - [Index](#index)
-- [Como rodar o projeto](#como-rodar-o-projeto)
-- [Classes do projeto](#classes-do-projeto)
-- [CheckList do projeto](#checklist-do-projeto)
+- [Como rodar](#como-rodar)
+- [Classes](#classes)
+- [CheckList](#checklist)
 - [Participantes](#participantes)
 
-
-## Como rodar o projeto
+## Como rodar
 
 Na raiz do projeto
 
 - Criar o arquivo .env seguindo os padrões do .env.example
+- Criar a pasta tmp
 
-``` shell
-  npm i                # Instala as dependencias do projeto
-  node ace serve       # Roda um servidor local para visualização do projeto
+```shell
+  npm i                   # Instala as dependencias do projeto
+  node ace migration:run  # Inicializa o banco de dados
+  node ace serve          # Roda um servidor local para visualização do projeto
 ```
 
-## Classes do projeto
+## Classes
+
 - Rifas
 - Usuarios
 - Legendas
@@ -33,7 +35,7 @@ Na raiz do projeto
 - Prêmios
 - Bilhetes
 
-## CheckList do projeto
+## CheckList
 
 - [x] Implementação do [AdonisJS](https://adonisjs.com/)
 - [x] Criação de rotas primarias (Home, About)
@@ -42,5 +44,6 @@ Na raiz do projeto
 - [ ] ???
 
 ## Participantes
+
 1. [@FelipeNaoto](https://github.com/felipeinfo18)
 2. [@GustavoAlexandre](https://github.com/GustavoASCarvalho)

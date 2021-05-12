@@ -29,6 +29,8 @@
     "@adonisjs/session": "^6.0.3",
     "@adonisjs/shield": "^7.0.2",
     "@adonisjs/view": "^6.0.1",
+    "@popperjs/core": "^2.9.2",
+    "bootstrap": "^5.0.0",
     "proxy-addr": "^2.0.6",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19"
