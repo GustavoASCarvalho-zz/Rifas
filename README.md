@@ -3,7 +3,7 @@
   <h1 align="center">Gerênciamento de rifas</h1>
 </p>
 
-Você acaba de encontrar nosso repositório de gerenciamento de rifas no GitHub, nele você cadastrar suas rifas com seus respectivos prêmios, vende e realiza sorteios
+Você acaba de encontrar nosso repositório de gerenciamento de rifas no GitHub, nele você podera cadastrar suas rifas com seus respectivos prêmios, vender e realizar sorteios
 
 ## Index
 
