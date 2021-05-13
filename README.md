@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="rifa" src="https://lh3.googleusercontent.com/proxy/txAH-3roeu3zXOBucbeEl1weJ02cnWMfdxgK1pyrqnvaXnxkcGlZdrL_W41G7YvX9Sowxh0opZFDNyurWk2V35JAwnxXeDzrtb5WZHHMw49AbKY78D1rZS1eQHJ_YektUrHipVsTf3XQQTuQ3RZYqYK0vBEip7o06rKwIjmxAmo5soRH8N0n0VhnIHj_0GZ5S8TiuApokbBA_oEA1I04DHmD1mLAYocfz8_xl0N5oiFZ4scrDof0JyQd5IHMLnXdNeUTBG6uA-lZPu2VpJ-rrp63SID8RDvrccUX4J0EHHBB1EajXK6usDL3G8nOKOHZ" width="100px" />
+  <img alt="rifa" src="https://lh3.googleusercontent.com/proxy/3J7fsQAl_u63eTMklkOYv90oqPkSMxVUrHYsGoiHjtHGNnr1QtOFahOOeRsa5fHjCNpsdYjkYPKiBRHA2B0c-GyZZnYK6FbwsTYu0yc_IPJOOso-qrYE7365EFhjTqxBhrT-XSSJ64I-d-9BOkUFOlEaSgvsUhsiNQWgzP0bQKwAbiJ2bDUvcf8p9wgZcjYIv2-5GVrWcN70HjscGJoPHylKMwnnByoFNaNDT20WqbBKwGtyJL_f7pB97ZBezpc1JlDBN_OoaHWfBDnvNNYgAdB3MES7S6qqex7dJ7efgCe9P6kqj3jAdi9Ue91Gdnm3" width="100px" />
   <h1 align="center">Gerênciamento de rifas</h1>
 </p>
 
