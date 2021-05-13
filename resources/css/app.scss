@@ -3,13 +3,17 @@
 @import '~bootstrap/scss/mixins';
 
 $custom-colors: (
-  'primaria': #eaf0ce,
-  'secundaria': #0f3e69,
-  'terciaria': #c1292e,
-  'quartenaria': #ffaff0,
-  'quintenaria': #508991,
+  'color-1': #264653,
+  'color-2': #2a9d8f,
+  'color-3': #e9c46a,
+  'color-4': #f4a261,
+  'color-5': #e76f51,
 );
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
 @import '~bootstrap/scss/bootstrap';
+
+img {
+  margin: -20px 0;
+}
