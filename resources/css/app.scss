@@ -10,9 +10,11 @@ $custom-colors: (
   'color-5': #e76f51,
 );
 
+$colors: map-merge($colors, $custom-colors);
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
 @import '~bootstrap/scss/bootstrap';
+@import '~bootstrap-icons/font/bootstrap-icons.css';
 
 img {
   margin: -20px 0;

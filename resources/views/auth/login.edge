@@ -1,11 +1,9 @@
 @layout('layout/app')
 
 @section('content')
-@if(flashMessages.has('auth.errors'))
-	<div class="alert alert-danger">Login ou senha inválidos</div>
-@endif
+
   	<div class="d-flex justify-content-center mt-5">
-		<div class="col-4">
+		<div class="col-4 shadow-lg rounded-3 bg-body p-3">
 			<main class="form-signin">
 				<form action="{{ route('auth.verify') }}" method="post">
 					<h2 class="h3 mb-3 fw-normal">Login</h2>
@@ -21,10 +19,15 @@
 
 					<div class="checkbox mb-3">
 						<label>
-						<input type="checkbox" name="remember" value="true"> Lembrar de mim
+							<input class="form-check-input" type="checkbox" name="remember" value="true"> Lembrar de mim
 						</label>
 					</div>
-					<button class="w-100 btn btn-lg btn-secundaria" type="submit">Login</button>
+					<button class="w-100 btn btn-lg btn-color-1" type="submit">Login</button>
+					@if(flashMessages.has('auth.errors'))
+						<div class="alert alert-danger mt-3">
+							Login ou senha inválidos
+						</div>
+					@endif
 				</form>
 			</main>
 		</div>

@@ -7,7 +7,7 @@
 
     @entryPointStyles('app')
     @entryPointScripts('app')
-
+	@!section('imports')
     <title>app</title>
 </head>
 <body>
@@ -17,7 +17,9 @@
 			{{--  logo  --}}
 
 			<a class="navbar-brand" href="{{ route('home.index') }}">
-				<img src="https://lh3.googleusercontent.com/proxy/XNbNHEGesQaVeCcDfbdSqaDLoTCICISpR74uoLV4Km_jDa8dDFwJHoyFw5JBen-YXYgx1L4DFKuoTP-s9R3xSfnC8dGh-VHQyYQeZqcNinjkqdrsomk38fVylfa8mCn_ddXBBIzsVuL62Yy8ilhWBF8fDuar9Oe5Lqu6_Cm7f1kIMIQ_Rk63oV2HU1lHFjkR8jKHVVlsB5yMvecAMIFeSG4h5BjX7beLn06Fs0oxYoT6VUihwzK0TEMNK3aCkk_A0wB84wcYc-K_HVni6g_UTdl7N6V11SDu9Ga0Rb7lVVA_tTPfqGuVDgMLLRQElJWI" alt="" width="100px">
+				<i class="bi bi-card-checklist fs-2 text-color-1">
+					RifasAPP
+				</i>
 			</a>
 
 			{{--  botão hamburguer  --}}
@@ -31,33 +33,33 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="{{ route('home.index') }}">Home</a>
+						<a class="nav-link active text-color-1" aria-current="page" href="{{ route('home.index') }}">Home</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link active" aria-current="page" href="{{ route('home.about') }}">About</a>
+						<a class="nav-link active text-color-1" aria-current="page" href="{{ route('home.about') }}">About</a>
 					</li>
 				</ul>
 				<ul class="navbar-nav">
 				@if(auth.isLoggedIn)
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<a class="nav-link dropdown-toggle text-color-1" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							{{ auth.user?.name }}
 						</a>
 						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<li>
-								<a class="dropdown-item" href="{{ route('auth.logout') }}">Sair</a>
+								<a class="dropdown-item text-color-1" href="{{ route('auth.logout') }}">Sair</a>
 							</li>
 						</ul>
 					</li>
 				@else
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('auth.login') }}">
-							<button class="btn">Login</button>
+							<button class="btn btn-color-1">Login</button>
 						</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{{ route('auth.register') }}">
-							<button class="btn">Registrar</button>
+							<button class="btn btn-color-1">Registrar</button>
 						</a>
 					</li>
 				@endif
@@ -65,6 +67,8 @@
 			</div>
 		</div>
 	</nav>
-    @!section('content')
+	<div class="container">
+		@!section('content')
+	</div>
 </body>
 </html>

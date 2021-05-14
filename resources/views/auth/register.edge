@@ -1,35 +1,37 @@
 @layout('layout/app')
 
 @section('content')
-  @if(flashMessages.has('errors'))
-    <div class="alert alert-danger">{{ flashMessages.get('errors') }}</div>
-  @endif
-  <div class="d-flex justify-content-center mt-5">
-    <div class="col-4">
-      <main class="form-signin">
-        <form action="{{ route('auth.store') }}" method="post">
-          <h1 class="h3 mb-3 fw-normal">Registre-se</h1>
+  	<div class="d-flex justify-content-center mt-5">
+		<div class="col-4 shadow-lg rounded-3 bg-body p-3">
+			<main class="form-signin">
+				<form action="{{ route('auth.store') }}" method="post">
+					<h2 class="h3 mb-3 fw-normal">Registre-se</h2>
 
-          <div class="form-floating mb-1">
-            <input type="text" class="form-control" name="name" id="name" placeholder="Nome" autofocus>
-            <label for="name">Nome</label>
-          </div>
-          <div class="form-floating mb-1">
-            <input type="email" class="form-control" name="email" id="email" placeholder="nome@exemplo.com">
-            <label for="email">Email</label>
-          </div>
-          <div class="form-floating mb-1">
-            <input type="password" class="form-control" name="password" id="password" placeholder="Senha">
-            <label for="password">Senha</label>
-          </div>
-          <div class="checkbox mb-3">
-            <label>
-              <input type="checkbox" name="admin" value="true"> Administrador
-            </label>
-          </div>
-          <button class="w-100 btn btn-lg btn-secundaria" type="submit">Registrar</button>
-        </form>
-      </main>
-    </div>
-  </div>
+					<div class="form-floating mb-1">
+						<input type="text" class="form-control" name="name" id="name" placeholder="Nome" autofocus>
+						<label for="name">Nome</label>
+					</div>
+					<div class="form-floating mb-1">
+						<input type="email" class="form-control" name="email" id="email" placeholder="nome@exemplo.com">
+						<label for="email">Email</label>
+					</div>
+					<div class="form-floating mb-1">
+						<input type="password" class="form-control" name="password" id="password" placeholder="Senha">
+						<label for="password">Senha</label>
+					</div>
+					<div class="checkbox mb-3">
+						<label>
+						<input class="form-check-input" type="checkbox" name="admin" value="true"> Administrador
+						</label>
+					</div>
+					<button class="w-100 btn btn-lg btn-color-1" type="submit">Registrar</button>
+					@if(flashMessages.has('errors'))
+						<div class="alert alert-danger mt-3">
+							{{ flashMessages.get('errors') }}
+						</div>
+					@endif
+				</form>
+			</main>
+		</div>
+  	</div>
 @endsection
