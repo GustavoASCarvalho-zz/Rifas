@@ -19,6 +19,7 @@ Requisitos
 
 - nodejs^14.17.0
 - npm^6.14.12
+- postgresql^13
 
 Na raiz do projeto
 
@@ -27,6 +28,7 @@ Na raiz do projeto
 ```shell
   npm i                   # Instala as dependencias do projeto
   node ace migration:run  # Inicializa o banco de dados
+  node ace db:seed        # Insere alguns dados de teste no banco de dados
   node ace serve          # Roda um servidor local para visualização do projeto
 ```
 
@@ -43,9 +45,12 @@ Na raiz do projeto
 - [x] Implementação do [AdonisJS](https://adonisjs.com/)
 - [x] Criação de rotas primarias (Home, About)
 - [x] Implementação do [Bootstrap](https://getbootstrap.com/)
-- [x] Implementação do banco de dados SQLite3
+- [x] Implementação do banco de dados Postgresql
 - [x] Models e imigrations aplicados
 - [x] Autenticação adicionada
+- [x] Atribuição de relações
+- [x] Criação de um seeder paro banco de dados
+- [ ] ???
 - [ ] Estilização de paginas
 - [ ] ???
 - [ ] ???
