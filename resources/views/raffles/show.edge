@@ -1,0 +1,17 @@
+@layout('layout/app')
+
+@section('content')
+    <h1 class="text-center text-color-1">{{ raffle.title }}</h1>
+    <ul class="list-group">
+        <li class="list-group-item">{{raffle.description || 'sem descrição'}}</li>
+        <li class="list-group-item">{{raffle.probableRaffleDate}}</li>
+        <li class="list-group-item">{{raffle.initialSaleDate}}</li>
+        <li class="list-group-item">{{raffle.endSaleDate}}</li>
+        <li class="list-group-item">{{raffle.raffleDate || 'Sem Data Marcada'}}</li>
+        <li class="list-group-item">
+            <a href="#">
+                <button class="btn btn-color-1">{{ raffle.ticketPrize }}</button>
+            </a>
+        </li>
+    </ul>
+@endsection

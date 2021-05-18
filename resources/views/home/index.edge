@@ -14,7 +14,7 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ raffle.title }}</h5>
                             <p class="card-text"> {{ raffle.description }}</p>
-                            <a href="#" class="btn btn-lg btn-color-1 mt-auto mx-auto">Ver</a>
+                            <a href="{{ route('raffles.show', {id: raffle.id} )}}" class="btn btn-lg btn-color-1 mt-auto mx-auto">Ver</a>
                         </div>
                     </div>
                 </div>
