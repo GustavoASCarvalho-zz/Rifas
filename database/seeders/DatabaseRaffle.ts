@@ -29,6 +29,36 @@ export default class DatabaseRaffleSeeder extends BaseSeeder {
       ticketPrize: 29.99,
     })
 
+    await user.related('raffles').create({
+      typeId: 1,
+      title: 'Rifa do parque',
+      description: 'precisamos de dinheiro para reformar o nosso querido parque central',
+      probableRaffleDate: DateTime.now(),
+      initialSaleDate: DateTime.now(),
+      endSaleDate: DateTime.now(),
+      ticketPrize: 29.99,
+    })
+
+    await user.related('raffles').create({
+      typeId: 1,
+      title: 'Rifas são joão',
+      description: 'Grandiosos premios no nosso evento de são joão',
+      probableRaffleDate: DateTime.now(),
+      initialSaleDate: DateTime.now(),
+      endSaleDate: DateTime.now(),
+      ticketPrize: 29.99,
+    })
+
+    await user.related('raffles').create({
+      typeId: 1,
+      title: 'Rifa do Colégio São Miguel',
+      description: 'Ajude nós formandos a cumprir nossa meta!',
+      probableRaffleDate: DateTime.now(),
+      initialSaleDate: DateTime.now(),
+      endSaleDate: DateTime.now(),
+      ticketPrize: 21.99,
+    })
+
     await raffle.related('prizes').create({
       description: '10kg carne',
       placing: 1,
