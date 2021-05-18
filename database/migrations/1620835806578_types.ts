@@ -7,7 +7,7 @@ export default class Types extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
       table.string('description', 45).notNullable()
-      table.integer('initial_integer').notNullable()
+      table.integer('initial_number').notNullable()
       table.integer('step').notNullable()
       table.integer('number_of_tickets').notNullable()
       table.timestamps(true)

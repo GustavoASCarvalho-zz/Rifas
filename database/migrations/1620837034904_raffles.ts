@@ -10,7 +10,7 @@ export default class Raffles extends BaseSchema {
       table.integer('type_id').notNullable().references('id').inTable('raffles')
       table.string('title', 45).notNullable()
       table.string('description')
-      table.dateTime('likely_raffle_date').notNullable()
+      table.dateTime('probable_raffle_date').notNullable()
       table.dateTime('initial_sale_date').notNullable()
       table.dateTime('end_sale_date').notNullable()
       table.dateTime('raffle_date')
