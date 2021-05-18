@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="rifa" src="https://lh3.googleusercontent.com/proxy/3J7fsQAl_u63eTMklkOYv90oqPkSMxVUrHYsGoiHjtHGNnr1QtOFahOOeRsa5fHjCNpsdYjkYPKiBRHA2B0c-GyZZnYK6FbwsTYu0yc_IPJOOso-qrYE7365EFhjTqxBhrT-XSSJ64I-d-9BOkUFOlEaSgvsUhsiNQWgzP0bQKwAbiJ2bDUvcf8p9wgZcjYIv2-5GVrWcN70HjscGJoPHylKMwnnByoFNaNDT20WqbBKwGtyJL_f7pB97ZBezpc1JlDBN_OoaHWfBDnvNNYgAdB3MES7S6qqex7dJ7efgCe9P6kqj3jAdi9Ue91Gdnm3" width="100px" />
+  <img alt="rifa" src="/public/assets/rifas.png" width="100px" />
   <h1 align="center">Gerênciamento de rifas</h1>
 </p>
 
