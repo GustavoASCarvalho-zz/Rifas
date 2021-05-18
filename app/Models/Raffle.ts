@@ -31,19 +31,19 @@ export default class Raffle extends BaseModel {
   public description: string
 
   @column()
-  public likelyRaffleDate: DateTime
+  public probableRaffleDate: DateTime
 
   @column()
-  public initial_sale_date: DateTime
+  public initialSaleDate: DateTime
 
   @column()
-  public end_sale_date: DateTime
+  public endSaleDate: DateTime
 
   @column()
-  public raffle_date: DateTime
+  public raffleDate: DateTime
 
   @column()
-  public ticket_prize: Float32Array
+  public ticketPrize: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

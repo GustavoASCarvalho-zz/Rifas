@@ -18,13 +18,13 @@ export default class Ticket extends BaseModel {
   public id: number
 
   @column()
-  public raffle_id: number
+  public raffleId: number
 
   @column()
-  public user_id: number
+  public userId: number
 
   @column()
-  public number_id: number
+  public number: number
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
