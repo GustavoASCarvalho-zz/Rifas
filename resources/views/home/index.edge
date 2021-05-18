@@ -1,12 +1,24 @@
 @layout('layout/app')
 
 @section('content')
-    
-   
-    <h2 class="text-center text-color-1 mt-5">Seja-Bem vindo</h2>
-    <p class="text-center text-color-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum fugit laborum, quae impedit quam harum atque suscipit neque sed accusantium adipisci omnis est nemo, eum, placeat ratione. Vero, sunt architecto!</p>
-   
-    {{--  <div>
-        <img class="img-fluid" src="assets/covid-19.png" alt="pessoas com mascara do covid">
-    </div>  --}}
+
+    <h2 class="text-center text-color-1 mt-5">Seja-Bem vindo(a)</h2>
+    <p class="text-center text-color-1">Conheça nosso site de Rifas! Crie, compre e participe dos sorteios!</p>
+
+    <h3 class="text-center text-color-1 my-5">Nossas rifas atualmente disponiveis</h3>
+    <div class="container">
+        <div class="row">
+            @each(raffle in raffles)
+                <div class="col-12 col-md-6 col-lg-4 mb-4 d-flex align-self-stretch">
+                    <div class="card w-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ raffle.title }}</h5>
+                            <p class="card-text"> {{ raffle.description }}</p>
+                            <a href="#" class="btn btn-lg btn-color-1 mt-auto mx-auto">Ver</a>
+                        </div>
+                    </div>
+                </div>
+            @endeach
+        </div>
+    </div>
 @endsection
