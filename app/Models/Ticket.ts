@@ -1,7 +1,17 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
+import {
+  BaseModel,
+  belongsTo,
+  column,
+  BelongsTo,
+  hasOne,
+  HasOne,
+  hasMany,
+  HasMany,
+} from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
 import Raffle from './Raffle'
+import Prize from './Prize'
 
 export default class Ticket extends BaseModel {
   @column({ isPrimary: true })
@@ -27,4 +37,13 @@ export default class Ticket extends BaseModel {
 
   @belongsTo(() => User)
   public user: BelongsTo<typeof User>
+
+  @hasOne(() => User)
+  public userHasOne: HasOne<typeof User>
+
+  @hasOne(() => Raffle)
+  public raffleHasOne: HasOne<typeof Raffle>
+
+  @hasMany(() => Prize)
+  public prizes: HasMany<typeof Prize>
 }

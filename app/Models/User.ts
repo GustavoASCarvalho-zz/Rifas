@@ -1,6 +1,17 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel } from '@ioc:Adonis/Lucid/Orm'
+import {
+  column,
+  beforeSave,
+  BaseModel,
+  hasMany,
+  HasMany,
+  hasManyThrough,
+  HasManyThrough,
+} from '@ioc:Adonis/Lucid/Orm'
+import Ticket from './Ticket'
+import Raffle from './Raffle'
+import Prize from './Prize'
 
 export default class User extends BaseModel {
   @column({ isPrimary: true })
@@ -33,4 +44,16 @@ export default class User extends BaseModel {
       user.password = await Hash.make(user.password)
     }
   }
+
+  @hasMany(() => Raffle)
+  public raffles: HasMany<typeof Raffle>
+
+  @hasMany(() => Ticket)
+  public tickets: HasMany<typeof Ticket>
+
+  @hasManyThrough([() => Prize, () => Raffle])
+  public prizesThroughRaffle: HasManyThrough<typeof Prize>
+
+  @hasManyThrough([() => Prize, () => Ticket])
+  public prizesThroughTicket: HasManyThrough<typeof Prize>
 }
