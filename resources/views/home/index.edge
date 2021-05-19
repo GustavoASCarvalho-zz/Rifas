@@ -2,7 +2,16 @@
 
 @section('content')
 
-    <h2 class="text-center text-color-1 mt-5">Seja-Bem vindo(a)</h2>
+
+    <h2 class="text-center text-color-1 mt-5">
+    
+        @if(auth.isLoggedIn)
+            Olá {{ auth.user?.name }}, que bom ver você de novo!
+        @else
+            Seja-Bem vindo(a)
+        @endif
+    </h2>
+
     <p class="text-center text-color-1">Conheça nosso site de Rifas! Crie, compre e participe dos sorteios!</p>
 
     <h3 class="text-center text-color-1 my-5">Nossas rifas atualmente disponiveis</h3>

@@ -1,17 +1,24 @@
 @layout('layout/app')
 
 @section('content')
-    <h1 class="text-center text-color-1">{{ raffle.title }}</h1>
-    <ul class="list-group">
-        <li class="list-group-item">{{raffle.description || 'sem descrição'}}</li>
-        <li class="list-group-item">{{raffle.probableRaffleDate}}</li>
-        <li class="list-group-item">{{raffle.initialSaleDate}}</li>
-        <li class="list-group-item">{{raffle.endSaleDate}}</li>
-        <li class="list-group-item">{{raffle.raffleDate || 'Sem Data Marcada'}}</li>
-        <li class="list-group-item">
-            <a href="#">
-                <button class="btn btn-color-1">{{ raffle.ticketPrize }}</button>
-            </a>
-        </li>
-    </ul>
+
+    <div class="card my-5 shadow-lg">
+        <img src="https://picsum.photos/300/150" class="card-img-top">
+        <div class="card-body text-center">
+            <h5 class="card-title mt-4">{{ raffle.title }}</h5>
+            <p class="card-text">{{raffle.description || 'sem descrição'}}</p>
+        </div>
+        <ul class="list-group list-group-flush my-3 text-center">
+            @if(raffle.raffleDate)
+                <li class="list-group-item">Data de realização do sorteio: {{raffle.raffleDate}}</li>
+            @else
+                <li class="list-group-item">Data provável do sorteio: {{ raffle.probableRaffleDate }}</li>
+            @endif
+            <li class="list-group-item">Inicio das vendas: {{ raffle.initialSaleDate }} </li>
+            <li class="list-group-item">Término das vendas: {{ raffle.endSaleDate }}</li>
+        </ul>
+        <div class="card-body d-flex justify-content-end">
+            <a href="#" class="btn btn-color-1 text-end">Comprar {{ raffle.ticketPrize }} R$</a>
+        </div>
+    </div>
 @endsection
