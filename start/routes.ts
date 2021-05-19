@@ -1,8 +1,12 @@
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.group(() => {}).middleware('auth')
+Route.group(() => {
+  Route.get('/raffles/create', 'RafflesController.create').as('raffles.create')
+  Route.post('/raffles', 'RafflesController.store').as('raffles.store')
+}).middleware('auth')
 
-Route.resource('/raffles', 'RafflesController')
+Route.get('/raffles/:id', 'RafflesController.show').as('raffles.show')
+
 Route.get('/about', 'HomeController.about').as('home.about')
 Route.get('/', 'HomeController.index').as('home.index')
 
