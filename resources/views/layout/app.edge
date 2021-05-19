@@ -37,6 +37,11 @@
 					<li class="nav-item">
 						<a class="nav-link active text-color-1" aria-current="page" href="{{ route('home.about') }}">About</a>
 					</li>
+					@if(auth.isLoggedIn)
+					<li class="nav-item">
+						<a class="nav-link active text-color-1" aria-current="page" href="{{ route('raffles.create') }}">Cadastrar Rifa</a>
+					</li>
+					@endif
 				</ul>
 				<ul class="navbar-nav">
 				@if(auth.isLoggedIn)

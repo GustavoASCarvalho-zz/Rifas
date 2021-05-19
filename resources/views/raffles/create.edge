@@ -1,0 +1,63 @@
+@layout('layout/app')
+
+@section('content')
+<div class="d-flex justify-content-center mt-5">
+    @if(flashMessages.has('auth.errors'))
+        <div class="alert alert-danger mt-3">
+            Dados invalidos
+        </div>
+	@endif
+    <form class="row g-3" action="{{ route('raffles.store') }}" method="post">
+
+        <div class="col-md-6 col-12">
+            <label for="title" class="form-label">Titulo</label>
+            <input class="form-control" id="title" name="title">
+        </div>
+
+        <div class="col-md-6 col-12">
+            <label for="ticketPrize" class="form-label">Valor dos tickets</label>
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" step="0.01" class="form-control" id="ticketPrize" name="ticketPrize">
+            </div>
+        </div>
+        <div class="col-12">
+            <select class="form-select" aria-label="Default select example" name="typeId">
+                <option selected>Tipos de rifas</option>
+
+                @each(type in types)
+                    <option value="{{ type.id }}">{{ type.description }}</option>  
+                @endeach
+                
+            </select>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <textarea class="form-control" id="description" style="height: 100px" name="description"></textarea>
+                <label for="description">Descrição</label>
+            </div>
+        </div>
+
+        <div class="col-12">
+          <label for="probableRaffleDate" class="form-label">Provavel data do sorteio</label>
+          <input type="datetime-local" class="form-control" id="probableRaffleDate" name="probableRaffleDate">
+        </div>
+
+        <div class="col-md-6">
+            <label for="initialSaleDate" class="form-label">Data de inicio das vendas</label>
+            <input type="datetime-local" class="form-control" id="initialSaleDate" name="initialSaleDate">
+        </div>
+
+        <div class="col-md-6">
+            <label for="endSaleDate" class="form-label">Data final das vendas</label>
+            <input type="datetime-local" class="form-control" id="endSaleDate" name="endSaleDate">
+        </div>
+
+       
+        <div class="col-12">
+          <button type="submit" class="btn btn-color-1">Cadastrar</button>
+        </div>
+
+      </form>
+</div>
+@endsection
