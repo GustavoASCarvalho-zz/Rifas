@@ -22,13 +22,20 @@
             </div>
         </div>
         <div class="col-12">
-            <select class="form-select" aria-label="Default select example" name="typeId">
-                <option selected>Tipos de rifas</option>
-
-                @each(type in types)
-                    <option value="{{ type.id }}">{{ type.description }}</option>  
-                @endeach
+            <select class="form-select" aria-label="Default select example" name="typeId" required>
                 
+                @each(type in types)
+                <option 
+                value="{{ type.id }}" 
+                data-bs-toggle="popover" 
+                title="Numeros de bilhetes: {{ type.numberOfTickets}}
+Numero Inicial dos Bilhetes: {{ type.initialNumber }}
+Numero de Passos: {{ type.step }}
+" 
+                data-bs-content="a">
+                    {{ type.description }}    
+                </option>
+                @endeach
             </select>
         </div>
         <div class="col-12">
