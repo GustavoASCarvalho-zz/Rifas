@@ -23,7 +23,19 @@ export default class RafflesController {
 
     try {
       const user = auth.user
-      await user?.related('raffles').create(data)
+
+      const raffle = await user?.related('raffles').create(data)
+
+      const type = await Type.query().where('id', data.typeId).firstOrFail()
+
+      // eslint-disable-next-line no-array-constructor
+      const tickets = Array()
+
+      for (let i = type.initialNumber; i <= type.numberOfTickets; i += type.step) {
+        tickets.push({ number: i })
+      }
+
+      await raffle?.related('tickets').createMany(tickets)
     } catch (error) {
       session.flash('errors', 'Erro no cadastro. Verifique suas informações.')
       console.log(error)
