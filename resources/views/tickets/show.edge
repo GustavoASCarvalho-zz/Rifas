@@ -1,0 +1,12 @@
+@layout('layout/app')
+
+@section('content')
+
+    @each(ticket in tickets)
+    
+        <h1>{{ ticket.number }}</h1>
+    
+    @endeach
+
+    
+@endsection

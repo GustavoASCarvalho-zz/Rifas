@@ -5,6 +5,8 @@ Route.group(() => {
   Route.post('/raffles', 'RafflesController.store').as('raffles.store')
 }).middleware('auth')
 
+Route.get('/raffles/:id/tickets', 'TicketsController.show').as('tickets.show')
+
 Route.get('/raffles/:id', 'RafflesController.show').as('raffles.show')
 
 Route.get('/about', 'HomeController.about').as('home.about')
