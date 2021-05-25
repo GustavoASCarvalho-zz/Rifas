@@ -1,0 +1,44 @@
+@layout('layout/app')
+
+@section('content')
+<div class="d-flex justify-content-center mt-5">
+    @if(flashMessages.has('auth.errors'))
+        <div class="alert alert-danger mt-3">
+            Erro na atualização
+        </div>
+	@endif
+    <form class="row g-3" action="{{ route('raffles.update', {id: raffle.id}) }}" method="post">
+
+        <h3 class="text-center text-color-1 mt-5">Definir data do sorteio</h3>
+
+        <div class="col-12">
+          <label for="raffleDate" class="form-label">Data definitiva do sorteio</label>
+          <input type="datetime-local" class="form-control" id="raffleDate" name="raffleDate">
+        </div>
+        
+        <h3 class="text-center text-color-1 mt-5">Adicionar prêmios</h3>
+        <div class="col-12 premios">
+            <div class="row">
+                <div class="col-3"><span>1º lugar</span></div>
+                <div class="col-9">
+                    <input type="text" class="form-control" id="description" name="description">
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="12">
+                <button type="button" class="btn btn-success align-self-end adicionar"><i class="bi bi-plus-circle"></i> Adiconar</button>
+                <button type="button" class="btn btn-danger align-self-end remover"><i class="bi bi-dash-circle"></i> Remover</button>
+            </div>
+        </div>
+
+        <div class="col-12">
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-lg btn-color-1">Finalizar</button>
+            </div>
+          
+        </div>
+
+      </form>
+</div>
+@endsection
