@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Prize from 'App/Models/Prize'
 import Raffle from 'App/Models/Raffle'
 import Type from 'App/Models/Type'
 
@@ -31,8 +32,8 @@ export default class RafflesController {
       // eslint-disable-next-line no-array-constructor
       const tickets = Array()
 
-      for (let i = type.initialNumber; i <= type.numberOfTickets; i += type.step) {
-        tickets.push({ number: i })
+      for (let i = 0, j = type.initialNumber; i < type.numberOfTickets; i++, j += type.step) {
+        tickets.push({ number: j })
       }
 
       await raffle?.related('tickets').createMany(tickets)
@@ -50,9 +51,18 @@ export default class RafflesController {
     return view.render('raffles/show', { raffle })
   }
 
-  public async edit({}: HttpContextContract) {}
+  public async edit({ view, params }: HttpContextContract) {
+    const raffle = await Raffle.query().where('id', params.id).firstOrFail()
+    const tickets = await raffle.related('tickets').query()
 
-  public async update({}: HttpContextContract) {}
+    return view.render('raffles/edit', { raffle, tickets })
+  }
+
+  public async update({ response, params, request }: HttpContextContract) {
+    //const raffle = await Raffle.query().where('id', params.id).firstOrFail()
+    //const prizeDescriptionData = request.only(['description'])
+    response.redirect().toRoute('/')
+  }
 
   public async destroy({}: HttpContextContract) {}
 }
