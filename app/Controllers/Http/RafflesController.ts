@@ -1,5 +1,4 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import Prize from 'App/Models/Prize'
 import Raffle from 'App/Models/Raffle'
 import Type from 'App/Models/Type'
 
@@ -22,6 +21,10 @@ export default class RafflesController {
       'endSaleDate',
     ])
 
+    if (!this.validate(data, session)) {
+      return response.redirect().back()
+    }
+
     try {
       const user = auth.user
 
@@ -38,11 +41,9 @@ export default class RafflesController {
 
       await raffle?.related('tickets').createMany(tickets)
     } catch (error) {
-      session.flash('errors', 'Erro no cadastro. Verifique suas informações.')
-      console.log(error)
-
       return response.redirect().toRoute('raffles.create')
     }
+    session.flash('notice', 'Rifa cadastrada com sucesso')
     response.redirect().toRoute('/')
   }
 
@@ -58,11 +59,58 @@ export default class RafflesController {
     return view.render('raffles/edit', { raffle, tickets })
   }
 
-  public async update({ response, params, request }: HttpContextContract) {
+  public async update({ response, params, request, session }: HttpContextContract) {
     //const raffle = await Raffle.query().where('id', params.id).firstOrFail()
     //const prizeDescriptionData = request.only(['description'])
+    session.flash('notice', 'Rifa finalizada com sucesso')
     response.redirect().toRoute('/')
   }
 
   public async destroy({}: HttpContextContract) {}
+
+  private validate(data, session): Boolean {
+    const errors = {}
+
+    if (!data.typeId || data.typeId !== Number) {
+      this.registerError(errors, 'typeID', 'error')
+    }
+
+    if (!data.title || data.title !== String) {
+      this.registerError(errors, 'title', 'error')
+    }
+
+    if (!data.ticketPrize || data.ticketPrize !== Number) {
+      this.registerError(errors, 'ticketPrize', 'error')
+    }
+
+    if (!data.description || data.description !== String) {
+      this.registerError(errors, 'description', 'error')
+    }
+
+    if (!data.probableRaffleDate) {
+      this.registerError(errors, 'probableRaffleDate', 'error')
+    }
+
+    if (!data.initialSaleDate) {
+      this.registerError(errors, 'initialSaleDate', 'error')
+    }
+
+    if (!data.endSaleDate) {
+      this.registerError(errors, 'endSaleDate', 'error')
+    }
+
+    if (Object.entries(errors).length > 0) {
+      session.flash('errors', errors)
+      session.flashAll()
+      return false
+    }
+    return true
+  }
+
+  private registerError(errors, atribute, error) {
+    if (!errors[atribute]) {
+      errors[atribute] = []
+    }
+    errors[atribute].push(error)
+  }
 }
