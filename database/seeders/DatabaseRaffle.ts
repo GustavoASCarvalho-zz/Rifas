@@ -14,9 +14,9 @@ export default class DatabaseRaffleSeeder extends BaseSeeder {
 
     await Type.create({
       description: 'Imoveis',
-      initialNumber: 1,
-      step: 1,
-      numberOfTickets: 3,
+      initialNumber: 50,
+      step: 2,
+      numberOfTickets: 100,
     })
 
     const raffle = await user.related('raffles').create({
