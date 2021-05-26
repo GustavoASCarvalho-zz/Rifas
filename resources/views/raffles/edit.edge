@@ -8,7 +8,7 @@
         </div>
 	@endif
     <form class="row g-3" action="{{ route('raffles.update', {id: raffle.id}) }}" method="post">
-
+        {{ csrfField() }}
         <h3 class="text-center text-color-1 mt-5">Definir data do sorteio</h3>
 
         <div class="col-12">

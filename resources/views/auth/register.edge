@@ -5,6 +5,7 @@
 		<div class="col-4 shadow-lg rounded-3 bg-body p-3">
 			<main class="form-signin">
 				<form action="{{ route('auth.store') }}" method="post">
+					{{ csrfField() }}
 					<h2 class="h3 mb-3 fw-normal">Registre-se</h2>
 
 					<div class="form-floating mb-1">
