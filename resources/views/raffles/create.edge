@@ -8,7 +8,6 @@
             @if(flashMessages.has('errors.title'))
                 <label for="title" class="form-label">Titulo</label>
                 <input class="form-control is-invalid" id="title" name="title" aria-describedby="title" value="{{flashMessages.get('title') || ''}}">
-
                 <div id="title" class="invalid-feedback">
                     Este campo é obrigatório
                 </div>
@@ -69,18 +68,51 @@ Numero de Passos: {{ type.step }}"
         </div>
 
         <div class="col-12">
-          <label for="probableRaffleDate" class="form-label">Provavel data do sorteio</label>
-          <input type="datetime-local" class="form-control" id="probableRaffleDate" name="probableRaffleDate" value="{{flashMessages.get('probableRaffleDate') || ''}}">
+            @if(flashMessages.has('errors.probableRaffleDate'))
+                <label for="probableRaffleDate" class="form-label">Provavel data do sorteio</label>
+                <input type="datetime-local" class="form-control is-invalid" id="probableRaffleDate" name="probableRaffleDate" value="{{flashMessages.get('probableRaffleDate') || ''}}">
+                <div id="title" class="invalid-feedback">
+                    Este campo é obrigatório
+                </div>
+            @else    
+                <label for="probableRaffleDate" class="form-label">Provavel data do sorteio</label>
+                <input type="datetime-local" class="form-control" id="probableRaffleDate" name="probableRaffleDate" value="{{flashMessages.get('probableRaffleDate') || ''}}">
+                <div id="title" class="invalid-feedback">
+                    Este campo é obrigatório
+                </div>
+            @endif
         </div>
 
         <div class="col-md-6">
-            <label for="initialSaleDate" class="form-label">Data de inicio das vendas</label>
-            <input type="datetime-local" class="form-control" id="initialSaleDate" name="initialSaleDate" value="{{flashMessages.get('initialSaleDate') || ''}}">
+            @if(flashMessages.has('errors.initialSaleDate'))
+                <label for="initialSaleDate" class="form-label">Data de inicio das vendas</label>
+                <input type="datetime-local" class="form-control is-invalid" id="initialSaleDate" name="initialSaleDate" value="{{flashMessages.get('initialSaleDate') || ''}}">
+                <div id="title" class="invalid-feedback">
+                    Este campo é obrigatório e deve ser antes da data final
+                </div>
+            @else
+                <label for="initialSaleDate" class="form-label">Data de inicio das vendas</label>
+                <input type="datetime-local" class="form-control" id="initialSaleDate" name="initialSaleDate" value="{{flashMessages.get('initialSaleDate') || ''}}">
+                <div id="title" class="invalid-feedback">
+                    Este campo é obrigatório e deve ser antes da data final
+                </div>
+            @endif
         </div>
 
         <div class="col-md-6">
-            <label for="endSaleDate" class="form-label">Data de término das vendas</label>
-            <input type="datetime-local" class="form-control" id="endSaleDate" name="endSaleDate" value="{{flashMessages.get('endSaleDate') || ''}}">
+            @if(flashMessages.has('errors.endSaleDate'))
+                <label for="endSaleDate" class="form-label">Data de término das vendas</label>
+                <input type="datetime-local" class="form-control is-invalid" id="endSaleDate" name="endSaleDate" value="{{flashMessages.get('endSaleDate') || ''}}">
+                <div id="title" class="invalid-feedback">
+                    Este campo é obrigatório
+                </div>
+            @else
+                <label for="endSaleDate" class="form-label">Data de término das vendas</label>
+                <input type="datetime-local" class="form-control" id="endSaleDate" name="endSaleDate" value="{{flashMessages.get('endSaleDate') || ''}}">
+                <div id="title" class="invalid-feedback">
+                    Este campo é obrigatório
+                </div>
+            @endif
         </div>
 
        

@@ -71,32 +71,48 @@ export default class RafflesController {
   private validate(data, session): Boolean {
     const errors = {}
 
-    if (!data.typeId || data.typeId !== Number) {
-      this.registerError(errors, 'typeID', 'error')
+    if (!data.typeId) {
+      this.registerError(errors, 'typeID', 'Campo obrigatório')
+    } else{
+      if(isNaN(data.typeId)){
+        this.registerError(errors, 'typeID', 'Valor inválido')
+      }
     }
 
-    if (!data.title || data.title !== String) {
-      this.registerError(errors, 'title', 'error')
+    if (!data.title) {
+      this.registerError(errors, 'title', 'Campo obrigatório')
+    } else {
+      if (data.title.length < 3) {
+        this.registerError(errors, 'title', 'Nome precisa ter pelo menos 3 caracteres')
+      }
+
+      if (data.title.length > 20) {
+        this.registerError(errors, 'title', 'Nome precisa ter no máximo 20 caracteres')
+      }
     }
 
-    if (!data.ticketPrize || data.ticketPrize !== Number) {
-      this.registerError(errors, 'ticketPrize', 'error')
-    }
-
-    if (!data.description || data.description !== String) {
-      this.registerError(errors, 'description', 'error')
+    if (!data.ticketPrize) {
+      this.registerError(errors, 'ticketPrize', 'Campo obrigatório')
+    } else {
+      if(isNaN(data.ticketPrize)){
+        this.registerError(errors, 'ticketPrize', 'Preço precisa ser um número')
+      }
     }
 
     if (!data.probableRaffleDate) {
-      this.registerError(errors, 'probableRaffleDate', 'error')
+      this.registerError(errors, 'probableRaffleDate', 'Campo obrigatório')
     }
 
     if (!data.initialSaleDate) {
-      this.registerError(errors, 'initialSaleDate', 'error')
+      this.registerError(errors, 'initialSaleDate', 'Campo obrigatório')
     }
 
     if (!data.endSaleDate) {
-      this.registerError(errors, 'endSaleDate', 'error')
+      this.registerError(errors, 'endSaleDate', 'Campo obrigatório')
+    }
+
+    if (data.initialSaleDate > data.endSaleDate){
+      this.registerError(errors, 'initialSaleDate', 'Data inicial deve ser antes da data final')
     }
 
     if (Object.entries(errors).length > 0) {
@@ -114,3 +130,4 @@ export default class RafflesController {
     errors[atribute].push(error)
   }
 }
+1
