@@ -2,27 +2,46 @@
 
 @section('content')
 <div class="d-flex justify-content-center mt-5">
-    @if(flashMessages.has('auth.errors'))
-        <div class="alert alert-danger mt-3">
-            Erro na atualização
-        </div>
-	@endif
     <form class="row g-3" action="{{ route('raffles.update', {id: raffle.id}) }}" method="post">
         {{ csrfField() }}
         <h3 class="text-center text-color-1 mt-5">Definir data do sorteio</h3>
 
         <div class="col-12">
-          <label for="raffleDate" class="form-label">Data definitiva do sorteio</label>
-          <input type="datetime-local" class="form-control" id="raffleDate" name="raffleDate">
+            @if(flashMessages.has('errors.raffleDate'))
+                <label for="raffleDate" class="form-label">Data definitiva do sorteio</label>
+                <input type="datetime-local" class="form-control is-invalid" id="raffleDate" name="raffleDate">
+                <div id="ticketPrize" class="text-danger">
+                    Este campo é obrigatório
+                </div>
+            @else
+                <label for="raffleDate" class="form-label">Data definitiva do sorteio</label>
+                <input type="datetime-local" class="form-control" id="raffleDate" name="raffleDate">
+                <div id="ticketPrize" class="form-text">
+                    Este campo é obrigatório
+                </div>
+            @endif
         </div>
         
         <h3 class="text-center text-color-1 mt-5">Adicionar prêmios</h3>
         <div class="col-12 premios">
             <div class="row">
-                <div class="col-3"><span>1º lugar</span></div>
-                <div class="col-9">
-                    <input type="text" class="form-control" id="description" name="description">
-                </div>
+                @if(flashMessages.has('errors.description'))
+                    <div class="col-3"><span>1º lugar</span></div>
+                    <div class="col-9">
+                        <input type="text" class="form-control is-invalid" id="description" name="description">
+                    </div>
+                    <div id="ticketPrize" class="text-danger">
+                        Adcione ao menos um prêmio
+                    </div>
+                @else
+                    <div class="col-3"><span>1º lugar</span></div>
+                    <div class="col-9">
+                        <input type="text" class="form-control" id="description" name="description">
+                    </div>
+                    <div id="ticketPrize" class="form-text">
+                        Adcione ao menos um prêmio
+                    </div>
+                @endif
             </div>
         </div>
         <div class="col-12">

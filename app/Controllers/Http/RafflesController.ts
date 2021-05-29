@@ -55,11 +55,15 @@ export default class RafflesController {
   public async edit({ view, params }: HttpContextContract) {
     const raffle = await Raffle.query().where('id', params.id).firstOrFail()
     const tickets = await raffle.related('tickets').query()
-
     return view.render('raffles/edit', { raffle, tickets })
   }
 
-  public async update({ response, params, request, session }: HttpContextContract) {
+  public async update({ response, request, session }: HttpContextContract) {
+    const data = await request.only(['raffleDate', 'description'])
+
+    if (!this.validateEdit(data, session)) {
+      return response.redirect().back()
+    }
     //const raffle = await Raffle.query().where('id', params.id).firstOrFail()
     //const prizeDescriptionData = request.only(['description'])
     session.flash('notice', 'Rifa finalizada com sucesso')
@@ -123,6 +127,25 @@ export default class RafflesController {
     return true
   }
 
+  private validateEdit(data, session): Boolean {
+    const errors = {}
+    
+    if (!data.raffleDate) {
+      this.registerError(errors, 'raffleDate', 'Campo obrigatório')
+    }
+
+    if (!data.description) {
+      this.registerError(errors, 'description', 'Campo obrigatório')
+    }
+    
+    if (Object.entries(errors).length > 0) {
+      session.flash('errors', errors)
+      session.flashAll()
+      return false
+    }
+    return true
+  }
+
   private registerError(errors, atribute, error) {
     if (!errors[atribute]) {
       errors[atribute] = []
@@ -130,4 +153,3 @@ export default class RafflesController {
     errors[atribute].push(error)
   }
 }
-1

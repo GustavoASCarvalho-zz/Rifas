@@ -8,29 +8,66 @@
 					{{ csrfField() }}
 					<h2 class="h3 mb-3 fw-normal">Registre-se</h2>
 
-					<div class="form-floating mb-1">
-						<input type="text" class="form-control" name="name" id="name" placeholder="Nome" autofocus>
-						<label for="name">Nome</label>
-					</div>
-					<div class="form-floating mb-1">
-						<input type="email" class="form-control" name="email" id="email" placeholder="nome@exemplo.com">
-						<label for="email">Email</label>
-					</div>
+					@if(flashMessages.has('errors.name'))
+						<div class="form-floating mb-1">
+							<input type="text" class="form-control is-invalid" name="name" id="name" placeholder="Nome" autofocus>
+							<label for="name">Nome</label>
+							<div id="title" class="invalid-feedback">
+								Este campo é obrigatório e precisa ter entre 3 a 25 caracteres
+							</div>
+						</div>
+					@else
+						<div class="form-floating mb-1">
+							<input type="text" class="form-control" name="name" id="name" placeholder="Nome" autofocus>
+							<label for="name">Nome</label>
+						</div>
+						<div id="title" class="form-text">
+							Este campo é obrigatório e precisa ter entre 3 a 25 caracteres
+						</div>
+					@endif
+					
+					@if(flashMessages.has('errors.email'))
+						<div class="form-floating mb-1">
+							<input type="email" class="form-control is-invalid" name="email" id="email" placeholder="nome@exemplo.com">
+							<label for="email">Email</label>
+							<div id="title" class="invalid-feedback">
+								Este campo é obrigatório
+							</div>
+						</div>
+					@else
+						<div class="form-floating mb-1">
+							<input type="email" class="form-control" name="email" id="email" placeholder="nome@exemplo.com">
+							<label for="email">Email</label>
+						</div>
+						<div id="title" class="form-text">
+							Este campo é obrigatório
+						</div>
+					@endif
+
+					@if(flashMessages.has('errors.email'))	
+						<div class="form-floating mb-1">
+							<input type="password" class="form-control is-invalid" name="password" id="password" placeholder="Senha">
+							<label for="password">Senha</label>
+							<div id="title" class="invalid-feedback">
+								Este campo é obrigatório
+							</div>
+						</div>
+					@else
 					<div class="form-floating mb-1">
 						<input type="password" class="form-control" name="password" id="password" placeholder="Senha">
 						<label for="password">Senha</label>
 					</div>
+						<div id="title" class="form-text">
+							Este campo é obrigatório
+						</div>
+					@endif					
+					
 					<div class="checkbox mb-3">
 						<label>
 						<input class="form-check-input" type="checkbox" name="admin" value="true"> Administrador
 						</label>
 					</div>
 					<button class="w-100 btn btn-lg btn-color-1" type="submit">Registrar</button>
-					@if(flashMessages.has('errors'))
-						<div class="alert alert-danger mt-3">
-							{{ flashMessages.get('errors') }}
-						</div>
-					@endif
 				</form>
 			</main>
 		</div>
