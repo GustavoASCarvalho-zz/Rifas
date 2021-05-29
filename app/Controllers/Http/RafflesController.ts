@@ -70,7 +70,7 @@ export default class RafflesController {
 
   private validate(data, session): Boolean {
     const errors = {}
-
+    
     if (!data.typeId) {
       this.registerError(errors, 'typeID', 'Campo obrigatório')
     } else{

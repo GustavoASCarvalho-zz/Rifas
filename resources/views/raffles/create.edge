@@ -42,23 +42,49 @@
         </div>
         
         <div class="col-12">
-            <select class="form-select" aria-label="Default select example" name="typeId" required>
-                <option disabled selected>Escolha o tipo</option>
-                @each(type in types)
-                <option 
-                value="{{ type.id }}"
-                @if(flashMessages.get('typeId') == type.id)
-                  selected
-                @endif
-                data-bs-toggle="popover" 
-                title="Numeros de bilhetes: {{ type.numberOfTickets}}
-Numero Inicial dos Bilhetes: {{ type.initialNumber }}
-Numero de Passos: {{ type.step }}" 
-                data-bs-content="a">
-                    {{ type.description }}    
-                </option>
-                @endeach
-            </select>
+            @if(flashMessages.has('errors.typeID'))
+                <select class="form-select is-invalid" aria-label="Default select example" name="typeId" required>
+                    <option disabled selected>Escolha o tipo</option>
+                    @each(type in types)
+                        <option 
+                        value="{{ type.id }}"
+                        @if(flashMessages.get('typeId') == type.id)
+                        selected
+                        @endif
+                        data-bs-toggle="popover" 
+                        title="Numeros de bilhetes: {{ type.numberOfTickets}}
+        Numero Inicial dos Bilhetes: {{ type.initialNumber }}
+        Numero de Passos: {{ type.step }}" 
+                        data-bs-content="a">
+                            {{ type.description }}    
+                        </option>
+                    @endeach
+                </select>
+                <div id="ticketPrize" class="text-danger">
+                    Este campo é obrigatório
+                </div>
+            @else
+                <select class="form-select" aria-label="Default select example" name="typeId" required>
+                    <option disabled selected>Escolha o tipo</option>
+                    @each(type in types)
+                    <option 
+                    value="{{ type.id }}"
+                    @if(flashMessages.get('typeId') == type.id)
+                    selected
+                    @endif
+                    data-bs-toggle="popover" 
+                    title="Numeros de bilhetes: {{ type.numberOfTickets}}
+    Numero Inicial dos Bilhetes: {{ type.initialNumber }}
+    Numero de Passos: {{ type.step }}" 
+                    data-bs-content="a">
+                        {{ type.description }}    
+                    </option>
+                    @endeach
+                </select>
+                <div id="ticketPrize" class="form-text">
+                    Este campo é obrigatório
+                </div>
+            @endif
         </div>
         <div class="col-12">
             <div class="form-floating">
@@ -71,13 +97,13 @@ Numero de Passos: {{ type.step }}"
             @if(flashMessages.has('errors.probableRaffleDate'))
                 <label for="probableRaffleDate" class="form-label">Provavel data do sorteio</label>
                 <input type="datetime-local" class="form-control is-invalid" id="probableRaffleDate" name="probableRaffleDate" value="{{flashMessages.get('probableRaffleDate') || ''}}">
-                <div id="title" class="invalid-feedback">
+                <div id="title" class="text-danger">
                     Este campo é obrigatório
                 </div>
             @else    
                 <label for="probableRaffleDate" class="form-label">Provavel data do sorteio</label>
                 <input type="datetime-local" class="form-control" id="probableRaffleDate" name="probableRaffleDate" value="{{flashMessages.get('probableRaffleDate') || ''}}">
-                <div id="title" class="invalid-feedback">
+                <div id="title" class="form-text">
                     Este campo é obrigatório
                 </div>
             @endif
@@ -87,13 +113,13 @@ Numero de Passos: {{ type.step }}"
             @if(flashMessages.has('errors.initialSaleDate'))
                 <label for="initialSaleDate" class="form-label">Data de inicio das vendas</label>
                 <input type="datetime-local" class="form-control is-invalid" id="initialSaleDate" name="initialSaleDate" value="{{flashMessages.get('initialSaleDate') || ''}}">
-                <div id="title" class="invalid-feedback">
+                <div id="title" class="text-danger">
                     Este campo é obrigatório e deve ser antes da data final
                 </div>
             @else
                 <label for="initialSaleDate" class="form-label">Data de inicio das vendas</label>
                 <input type="datetime-local" class="form-control" id="initialSaleDate" name="initialSaleDate" value="{{flashMessages.get('initialSaleDate') || ''}}">
-                <div id="title" class="invalid-feedback">
+                <div id="title" class="form-text">
                     Este campo é obrigatório e deve ser antes da data final
                 </div>
             @endif
@@ -103,13 +129,13 @@ Numero de Passos: {{ type.step }}"
             @if(flashMessages.has('errors.endSaleDate'))
                 <label for="endSaleDate" class="form-label">Data de término das vendas</label>
                 <input type="datetime-local" class="form-control is-invalid" id="endSaleDate" name="endSaleDate" value="{{flashMessages.get('endSaleDate') || ''}}">
-                <div id="title" class="invalid-feedback">
+                <div id="title" class="text-danger">
                     Este campo é obrigatório
                 </div>
             @else
                 <label for="endSaleDate" class="form-label">Data de término das vendas</label>
                 <input type="datetime-local" class="form-control" id="endSaleDate" name="endSaleDate" value="{{flashMessages.get('endSaleDate') || ''}}">
-                <div id="title" class="invalid-feedback">
+                <div id="title" class="form-text">
                     Este campo é obrigatório
                 </div>
             @endif
