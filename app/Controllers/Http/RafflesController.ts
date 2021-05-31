@@ -66,7 +66,6 @@ export default class RafflesController {
   public async show({ view, params }: HttpContextContract) {
     const raffle = await Raffle.query().where('id', params.id).firstOrFail()
 
-    console.log(raffle.probableRaffleDate.toLocaleString('pt-BR', { timeZone: 'America/Brazilia' }))
     return view.render('raffles/show', { raffle })
   }
 
