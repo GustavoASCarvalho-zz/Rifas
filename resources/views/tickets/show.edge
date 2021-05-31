@@ -2,11 +2,31 @@
 
 @section('content')
 
+    <div class="row my-4">
+
     @each(ticket in tickets)
-    
-        <h1>{{ ticket.number }}</h1>
-    
+        @if(!ticket.userId)
+        <div class="col-4 my-2">
+            <h5 class="card-title">Bilhete Nº {{ ticket.number }}</h5>
+            <p class="card-text">asdasd</p>
+            <div class="mt-auto mx-auto">
+                <form method="POST" action="{{route('ticket.buy', {id: ticket.raffleId, ticketId: ticket.id})}}">
+                    {{ csrfField() }}
+                    <button type="submit" class="btn btn-color-1">Comprar</button>
+                </form>
+            </div>
+        </div>
+        @else
+        <div class="col-4 my-2">
+            <h5 class="card-title">Bilhete Nº {{ ticket.number }}</h5>
+            <p class="card-text">ads</p>
+            <div class="mt-auto mx-auto">
+                <button disabled class="btn btn-color-1">Ja comprado</button>
+            </div>
+        </div>
+        @endif
     @endeach
 
+    </div>
     
 @endsection

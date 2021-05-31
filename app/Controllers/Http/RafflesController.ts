@@ -76,13 +76,13 @@ export default class RafflesController {
   }
 
   public async update({ response, request, session, params }: HttpContextContract) {
-    const data = await request.only(['raffleDate'])
+    const data = await request.all()
 
     if (!this.validateEdit(data, session)) {
       return response.redirect().back()
     }
 
-    await Raffle.query().where('id', params.id).update(data)
+    await Raffle.query().where('id', params.id).update({ raffle_date: data.raffleDate })
 
     session.flash('notice', 'Rifa finalizada com sucesso')
     response.redirect().toRoute('/')
