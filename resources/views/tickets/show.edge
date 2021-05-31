@@ -25,8 +25,40 @@
             </div>
         </div>
         @endif
+        
     @endeach
 
     </div>
     
+    <nav>
+        <ul class="pagination">
+            <li 
+            class="
+            page-item
+            @if(pag == 1)
+            disabled
+            @endif
+            "><a class="page-link" href="?pag={{pag-1}}">Previous</a></li>
+
+            <li class="page-item
+            @if(pag == 1)
+            disabled
+            @endif
+            "><a class="page-link" href="?pag={{pag-1}}">{{pag-1}}</a><li>
+            <li class="page-item active"><a class="page-link" href="?pag={{pag}}">{{pag}}</a><li>
+            <li class="page-item 
+            @if(pag == tam)
+            disabled
+            @endif
+            "><a class="page-link" href="?pag={{pag+1}}">{{pag+1}}</a></li>
+
+            <li 
+            class="
+            page-item
+            @if(pag == tam)
+            disabled
+            @endif
+            "><a class="page-link" href="?pag={{pag+1}}">Next</a></li>
+        </ul>
+      </nav>
 @endsection

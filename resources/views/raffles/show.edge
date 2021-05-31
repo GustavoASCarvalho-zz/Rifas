@@ -18,7 +18,7 @@
             <li class="list-group-item">Término das vendas: {{ raffle.endSaleDate.toLocaleString() }}</li>
         </ul>
         <div class="card-body d-flex justify-content-end">
-            <a href="{{ route('tickets.show', {id: raffle.id})}}" class="btn btn-color-1 text-end">Comprar bilhetes {{ raffle.ticketPrize }} R$</a>
+            <a href="{{ route('tickets.show', {id: raffle.id})}}?pag=1" class="btn btn-color-1 text-end">Comprar bilhetes {{ raffle.ticketPrize }} R$</a>
         </div>
     </div>
 @endsection
