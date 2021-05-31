@@ -27,12 +27,13 @@ export default class AuthController {
     return view.render('auth/login')
   }
 
-  public async verify({ request, response, session}: HttpContextContract) {
+  public async verify({ request, response, session, auth }: HttpContextContract) {
     const data = request.only(['email', 'password', 'remember'])
 
     if (!this.validate(data, session, false)) {
       return response.redirect().back()
     }
+    await auth.attempt(data.email, data.password, data.remember === 'true')
 
     response.redirect().toRoute('home.index')
   }
@@ -45,15 +46,15 @@ export default class AuthController {
   private validate(data, session, registerOrLogin): Boolean {
     const errors = {}
 
-    if(registerOrLogin){
+    if (registerOrLogin) {
       if (!data.name) {
         this.registerError(errors, 'name', 'Campo obrigatório')
-      } else{
-        if(data.name.lenght < 3){
+      } else {
+        if (data.name.lenght < 3) {
           this.registerError(errors, 'name', 'Nome precisa ter pelo menos 3 caracteres')
         }
 
-        if(data.name.lenght > 25){
+        if (data.name.lenght > 25) {
           this.registerError(errors, 'name', 'Nome precisa ter no máximo 25 caracteres')
         }
       }

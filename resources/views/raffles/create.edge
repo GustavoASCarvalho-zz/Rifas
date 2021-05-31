@@ -7,13 +7,15 @@
         <div class="col-md-6 col-12">
             @if(flashMessages.has('errors.title'))
                 <label for="title" class="form-label">Titulo</label>
-                <input class="form-control is-invalid" id="title" name="title" aria-describedby="title" value="{{flashMessages.get('title') || ''}}">
+                <input class="form-control is-invalid" id="title" name="title" aria-describedby="title" 
+                value="{{flashMessages.get('title') || ''}}">
                 <div id="title" class="invalid-feedback">
                     Este campo é obrigatório
                 </div>
             @else
                 <label for="title" class="form-label">Titulo</label>
-                <input class="form-control" id="title" name="title" aria-describedby="title" value="{{flashMessages.get('title') || ''}}">
+                <input class="form-control" id="title" name="title" aria-describedby="title" 
+                value="{{flashMessages.get('title') || ''}}">
                 <div id="title" class="form-text">
                     Este campo é obrigatório
                 </div>
@@ -53,8 +55,8 @@
                         @endif
                         data-bs-toggle="popover" 
                         title="Numeros de bilhetes: {{ type.numberOfTickets}}
-        Numero Inicial dos Bilhetes: {{ type.initialNumber }}
-        Numero de Passos: {{ type.step }}" 
+Numero Inicial dos Bilhetes: {{ type.initialNumber }}
+Numero de Passos: {{ type.step }}"
                         data-bs-content="a">
                             {{ type.description }}    
                         </option>
@@ -74,8 +76,8 @@
                     @endif
                     data-bs-toggle="popover" 
                     title="Numeros de bilhetes: {{ type.numberOfTickets}}
-    Numero Inicial dos Bilhetes: {{ type.initialNumber }}
-    Numero de Passos: {{ type.step }}" 
+Numero Inicial dos Bilhetes: {{ type.initialNumber }}
+Numero de Passos: {{ type.step }}" 
                     data-bs-content="a">
                         {{ type.description }}    
                     </option>

@@ -58,14 +58,31 @@ export default class RafflesController {
     return view.render('raffles/edit', { raffle, tickets })
   }
 
-  public async update({ response, request, session }: HttpContextContract) {
-    const data = await request.only(['raffleDate', 'description'])
+  public async update({ response, request, session, params }: HttpContextContract) {
+    const data = await request.all()
+    let tam = 0
+    // eslint-disable-next-line no-array-constructor
+    const premios = new Array()
+    for (const key in data) {
+      tam++
+    }
+    for (let i = 2; i < tam; i++) {
+      const premio = { description: data[`prize${i - 1}`], placing: i - 1 }
+      if (premio.description && premio.placing) {
+        premios.push(premio)
+      }
+    }
+    console.log(premios)
 
     if (!this.validateEdit(data, session)) {
       return response.redirect().back()
     }
-    //const raffle = await Raffle.query().where('id', params.id).firstOrFail()
-    //const prizeDescriptionData = request.only(['description'])
+    console.log('validou')
+
+    const raffle = await Raffle.query().where('id', params.id).firstOrFail()
+    await Raffle.query().where('id', params.id).update({ raffle_date: data.raffleDate })
+    await raffle.related('prizes').createMany(premios)
+
     session.flash('notice', 'Rifa finalizada com sucesso')
     response.redirect().toRoute('/')
   }
@@ -74,11 +91,11 @@ export default class RafflesController {
 
   private validate(data, session): Boolean {
     const errors = {}
-    
+
     if (!data.typeId) {
       this.registerError(errors, 'typeID', 'Campo obrigatório')
-    } else{
-      if(isNaN(data.typeId)){
+    } else {
+      if (isNaN(data.typeId)) {
         this.registerError(errors, 'typeID', 'Valor inválido')
       }
     }
@@ -98,7 +115,7 @@ export default class RafflesController {
     if (!data.ticketPrize) {
       this.registerError(errors, 'ticketPrize', 'Campo obrigatório')
     } else {
-      if(isNaN(data.ticketPrize)){
+      if (isNaN(data.ticketPrize)) {
         this.registerError(errors, 'ticketPrize', 'Preço precisa ser um número')
       }
     }
@@ -115,7 +132,7 @@ export default class RafflesController {
       this.registerError(errors, 'endSaleDate', 'Campo obrigatório')
     }
 
-    if (data.initialSaleDate > data.endSaleDate){
+    if (data.initialSaleDate > data.endSaleDate) {
       this.registerError(errors, 'initialSaleDate', 'Data inicial deve ser antes da data final')
     }
 
@@ -129,15 +146,15 @@ export default class RafflesController {
 
   private validateEdit(data, session): Boolean {
     const errors = {}
-    
+
     if (!data.raffleDate) {
       this.registerError(errors, 'raffleDate', 'Campo obrigatório')
     }
 
-    if (!data.description) {
-      this.registerError(errors, 'description', 'Campo obrigatório')
+    if (!data.prize1) {
+      this.registerError(errors, 'prize', 'Campo obrigatório')
     }
-    
+
     if (Object.entries(errors).length > 0) {
       session.flash('errors', errors)
       session.flashAll()

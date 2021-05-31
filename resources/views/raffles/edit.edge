@@ -9,13 +9,13 @@
         <div class="col-12">
             @if(flashMessages.has('errors.raffleDate'))
                 <label for="raffleDate" class="form-label">Data definitiva do sorteio</label>
-                <input type="datetime-local" class="form-control is-invalid" id="raffleDate" name="raffleDate">
+                <input type="datetime-local" class="form-control is-invalid" id="raffleDate" name="raffleDate" value="{{flashMessages.get('raffleDate') || ''}}">
                 <div id="ticketPrize" class="text-danger">
                     Este campo é obrigatório
                 </div>
             @else
                 <label for="raffleDate" class="form-label">Data definitiva do sorteio</label>
-                <input type="datetime-local" class="form-control" id="raffleDate" name="raffleDate">
+                <input type="datetime-local" class="form-control" id="raffleDate" name="raffleDate" value="{{flashMessages.get('raffleDate') || ''}}">
                 <div id="ticketPrize" class="form-text">
                     Este campo é obrigatório
                 </div>
@@ -25,10 +25,10 @@
         <h3 class="text-center text-color-1 mt-5">Adicionar prêmios</h3>
         <div class="col-12 premios">
             <div class="row">
-                @if(flashMessages.has('errors.description'))
+                @if(flashMessages.has('errors.prize'))
                     <div class="col-3"><span>1º lugar</span></div>
                     <div class="col-9">
-                        <input type="text" class="form-control is-invalid" id="description" name="description">
+                        <input type="text" class="form-control is-invalid" id="prize1" name="prize1">
                     </div>
                     <div id="ticketPrize" class="text-danger">
                         Adcione ao menos um prêmio
@@ -36,7 +36,7 @@
                 @else
                     <div class="col-3"><span>1º lugar</span></div>
                     <div class="col-9">
-                        <input type="text" class="form-control" id="description" name="description">
+                        <input type="text" class="form-control" id="prize1" name="prize1">
                     </div>
                     <div id="ticketPrize" class="form-text">
                         Adcione ao menos um prêmio
