@@ -11,15 +11,33 @@ export default class RafflesController {
   }
 
   public async store({ response, request, session, auth }: HttpContextContract) {
-    const data = await request.only([
-      'typeId',
-      'title',
-      'ticketPrize',
-      'description',
-      'probableRaffleDate',
-      'initialSaleDate',
-      'endSaleDate',
-    ])
+    const data = await request.all()
+
+    let tam = 0
+    // eslint-disable-next-line no-array-constructor
+    const premios = new Array()
+
+    const rifa = {
+      title: data['title'],
+      ticketPrize: data['ticketPrize'],
+      typeId: data['typeId'],
+      description: data['description'],
+      probableRaffleDate: data['probableRaffleDate'],
+      initialSaleDate: data['initialSaleDate'],
+      endSaleDate: data['endSaleDate'],
+    }
+
+    for (const key in data) {
+      tam++
+    }
+
+    for (let i = 7; i < tam; i++) {
+      const premio = { description: data[`prize${i - 6}`], placing: i - 6 }
+
+      if (premio.description && premio.placing) {
+        premios.push(premio)
+      }
+    }
 
     if (!this.validate(data, session)) {
       return response.redirect().back()
@@ -27,11 +45,9 @@ export default class RafflesController {
 
     try {
       const user = auth.user
-
-      const raffle = await user?.related('raffles').create(data)
-
+      const raffle = await user?.related('raffles').create(rifa)
       const type = await Type.query().where('id', data.typeId).firstOrFail()
-
+      await raffle?.related('prizes').createMany(premios)
       // eslint-disable-next-line no-array-constructor
       const tickets = Array()
 
@@ -49,6 +65,8 @@ export default class RafflesController {
 
   public async show({ view, params }: HttpContextContract) {
     const raffle = await Raffle.query().where('id', params.id).firstOrFail()
+
+    console.log(raffle.probableRaffleDate.toLocaleString('pt-BR', { timeZone: 'America/Brazilia' }))
     return view.render('raffles/show', { raffle })
   }
 
@@ -59,29 +77,13 @@ export default class RafflesController {
   }
 
   public async update({ response, request, session, params }: HttpContextContract) {
-    const data = await request.all()
-    let tam = 0
-    // eslint-disable-next-line no-array-constructor
-    const premios = new Array()
-    for (const key in data) {
-      tam++
-    }
-    for (let i = 2; i < tam; i++) {
-      const premio = { description: data[`prize${i - 1}`], placing: i - 1 }
-      if (premio.description && premio.placing) {
-        premios.push(premio)
-      }
-    }
-    console.log(premios)
+    const data = await request.only(['raffleDate'])
 
     if (!this.validateEdit(data, session)) {
       return response.redirect().back()
     }
-    console.log('validou')
 
-    const raffle = await Raffle.query().where('id', params.id).firstOrFail()
-    await Raffle.query().where('id', params.id).update({ raffle_date: data.raffleDate })
-    await raffle.related('prizes').createMany(premios)
+    await Raffle.query().where('id', params.id).update(data)
 
     session.flash('notice', 'Rifa finalizada com sucesso')
     response.redirect().toRoute('/')
@@ -136,6 +138,10 @@ export default class RafflesController {
       this.registerError(errors, 'initialSaleDate', 'Data inicial deve ser antes da data final')
     }
 
+    if (!data.prize1) {
+      this.registerError(errors, 'prize', 'Campo obrigatório')
+    }
+
     if (Object.entries(errors).length > 0) {
       session.flash('errors', errors)
       session.flashAll()
@@ -149,10 +155,6 @@ export default class RafflesController {
 
     if (!data.raffleDate) {
       this.registerError(errors, 'raffleDate', 'Campo obrigatório')
-    }
-
-    if (!data.prize1) {
-      this.registerError(errors, 'prize', 'Campo obrigatório')
     }
 
     if (Object.entries(errors).length > 0) {
