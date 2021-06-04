@@ -41,6 +41,11 @@
 					<li class="nav-item">
 						<a class="nav-link active text-color-1" aria-current="page" href="{{ route('raffles.create') }}">Cadastrar Rifa</a>
 					</li>
+						@if(auth.user?.admin)
+						<li class="nav-item">
+							<a class="nav-link active text-color-1" aria-current="page" href="{{ route('types.create') }}">Cadastrar Tipos</a>
+						</li>
+						@endif
 					@endif
 				</ul>
 				<ul class="navbar-nav">

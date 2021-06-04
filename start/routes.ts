@@ -5,7 +5,11 @@ Route.group(() => {
   Route.post('/raffles', 'RafflesController.store').as('raffles.store')
   Route.get('/raffles/:id/edit', 'RafflesController.edit').as('raffles.edit')
   Route.post('/raffles/:id/update', 'RafflesController.update').as('raffles.update')
+
   Route.post('/raffles/:id/tickets/:ticketId/buy', 'TicketsController.buy').as('ticket.buy')
+
+  Route.get('/type/create', 'TypesController.create').as('types.create')
+  Route.post('/type', 'TypesController.store').as('types.store')
 }).middleware('auth')
 
 Route.get('/raffles/:id/tickets', 'TicketsController.show').as('tickets.show')
