@@ -36,10 +36,8 @@ export default class TicketsController {
   }
 
   public async buy({ params, response, auth }: HttpContextContract) {
-    console.log(params)
-
     await Ticket.query().where('id', params.ticketId).update({ user_id: auth.user?.id })
-    return response.redirect().back()
+    return response.redirect().toRoute('tickets.show', { id: params.id, qs: { pag: 1 } })
   }
 
   public async edit({}: HttpContextContract) {}
