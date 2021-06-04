@@ -40,17 +40,31 @@
             @endif
             "><a class="page-link" href="?pag={{pag-1}}">Previous</a></li>
 
+            <li class="page-item"
+            @if(pag-2 <= 0)
+            hidden
+            @endif
+            ><a class="page-link" href="?pag={{pag-2}}">{{pag-2}}</a><li>
+
             <li class="page-item
             @if(pag == 1)
             disabled
             @endif
             "><a class="page-link" href="?pag={{pag-1}}">{{pag-1}}</a><li>
+
             <li class="page-item active"><a class="page-link" href="?pag={{pag}}">{{pag}}</a><li>
+
             <li class="page-item 
             @if(pag == tam)
             disabled
             @endif
             "><a class="page-link" href="?pag={{pag+1}}">{{pag+1}}</a></li>
+
+            <li class="page-item"
+            @if(pag+2 >= tam)
+            hidden
+            @endif
+            ><a class="page-link" href="?pag={{pag+2}}">{{pag+2}}</a><li>
 
             <li 
             class="
