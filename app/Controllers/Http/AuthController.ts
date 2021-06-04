@@ -17,7 +17,6 @@ export default class AuthController {
       const user = await User.create(data)
       await auth.login(user, true)
     } catch (error) {
-      session.flash('errors', 'Erro no registro. Verifique suas informações.')
       return response.redirect().toRoute('auth.register')
     }
     response.redirect().toRoute('home.index')
@@ -43,7 +42,7 @@ export default class AuthController {
     response.redirect().toRoute('home.index')
   }
 
-  private validate(data, session, registerOrLogin): Boolean {
+  private async validate(data, session, registerOrLogin): Promise<Boolean> {
     const errors = {}
 
     if (registerOrLogin) {
@@ -57,6 +56,14 @@ export default class AuthController {
         if (data.name.lenght > 25) {
           this.registerError(errors, 'name', 'Nome precisa ter no máximo 25 caracteres')
         }
+      }
+    }
+
+    const usuarios = await User.query()
+
+    for (const u of usuarios) {
+      if (u.email === data.email) {
+        this.registerError(errors, 'email', 'Email ja existe')
       }
     }
 
