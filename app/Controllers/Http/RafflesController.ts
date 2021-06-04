@@ -28,6 +28,7 @@ export default class RafflesController {
     }
 
     for (const key in data) {
+      key.length
       tam++
     }
 
