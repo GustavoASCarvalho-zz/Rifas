@@ -11,7 +11,7 @@ export default class TypesController {
     return view.render('type/create')
   }
 
-  public async store({ view, request, session, response }: HttpContextContract) {
+  public async store({ request, session, response }: HttpContextContract) {
     const data = await request.only(['description', 'initialNumber', 'step', 'numberOfTickets'])
 
     if (!this.validate(data, session)) {
