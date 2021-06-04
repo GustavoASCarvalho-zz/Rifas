@@ -10,6 +10,16 @@ $custom-colors: (
   'color-5': #e76f51,
 );
 
+$font-sizes: (
+  1: $h1-font-size,
+  2: $h2-font-size,
+  3: $h3-font-size,
+  4: $h4-font-size,
+  5: $h5-font-size,
+  6: $h6-font-size,
+  7: 1rem * 3,
+);
+
 $colors: map-merge($colors, $custom-colors);
 $theme-colors: map-merge($theme-colors, $custom-colors);
 
@@ -18,4 +28,22 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 
 img {
   margin: -20px 0;
+}
+
+.navbar-collapse a:hover {
+  transform: scale(1.05);
+}
+
+html {
+  margin-top: 72px;
+}
+
+.card {
+  min-height: 200px;
+}
+
+@media (min-width: 992px) {
+  .card {
+    min-height: 320px;
+  }
 }

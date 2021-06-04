@@ -95,11 +95,15 @@ export default class RafflesController {
     const errors = {}
 
     if (!data.typeId) {
-      this.registerError(errors, 'typeID', 'Campo obrigatório')
+      this.registerError(errors, 'typeId', 'Campo obrigatório')
     } else {
       if (isNaN(data.typeId)) {
-        this.registerError(errors, 'typeID', 'Valor inválido')
+        this.registerError(errors, 'typeId', 'Valor inválido')
       }
+    }
+
+    if (data.description.length > 100) {
+      this.registerError(errors, 'description', 'A descrição precisa ter no máximo 45 caracteres')
     }
 
     if (!data.title) {

@@ -4,20 +4,21 @@
 <div class="d-flex justify-content-center mt-5">
     <form class="row g-3" action="{{ route('raffles.store') }}" method="post">
         {{ csrfField() }}
-        <h3 class="text-center text-color-1 mt-5">Cadastrar rifas</h3>
+        {{ inspect(flashMessages.all()) }}
+        <h3 class="text-center text-color-1 mt-5 fs-1">Cadastrar rifas</h3>
         <div class="col-md-6 col-12">
             @if(flashMessages.has('errors.title'))
-                <label for="title" class="form-label">Titulo</label>
+                <label for="title" class="form-label text-color-1">Titulo</label>
                 <input class="form-control is-invalid" id="title" name="title" aria-describedby="title" 
                 value="{{flashMessages.get('title') || ''}}">
                 <div id="title" class="invalid-feedback">
-                    Este campo é obrigatório
+                    {{flashMessages.get('errors.title')}}
                 </div>
             @else
-                <label for="title" class="form-label">Titulo</label>
+                <label for="title" class="form-label text-color-1">Titulo</label>
                 <input class="form-control" id="title" name="title" aria-describedby="title" 
                 value="{{flashMessages.get('title') || ''}}">
-                <div id="title" class="form-text">
+                <div id="title" class="form-text text-color-1">
                     Este campo é obrigatório
                 </div>
             @endif
@@ -31,21 +32,21 @@
                     <input type="number" step="0.01" class="form-control is-invalid" id="ticketPrize" name="ticketPrize" aria-describedby="ticketPrize" value="{{flashMessages.get('ticketPrize') || ''}}">
                 </div>
                 <div id="ticketPrize" class="text-danger">
-                    Este campo é obrigatório e precisa ser um número
+                    {{flashMessages.get('errors.ticketPrize')}}
                 </div>
             @else
                 <div class="input-group">
                     <span class="input-group-text">$</span>
                     <input type="number" step="0.01" class="form-control" id="ticketPrize" name="ticketPrize" aria-describedby="ticketPrize" value="{{flashMessages.get('ticketPrize') || ''}}">
                 </div>
-                <div id="ticketPrize" class="form-text">
+                <div id="ticketPrize" class="form-text text-color-1">
                     Este campo é obrigatório e precisa ser um número
                 </div>
             @endif
         </div>
         
         <div class="col-12">
-            @if(flashMessages.has('errors.typeID'))
+            @if(flashMessages.has('errors.typeId'))
                 <select class="form-select is-invalid" aria-label="Default select example" name="typeId" required>
                     <option disabled selected>Escolha o tipo</option>
                     @each(type in types)
@@ -63,8 +64,8 @@ Numero de Passos: {{ type.step }}"
                         </option>
                     @endeach
                 </select>
-                <div id="ticketPrize" class="text-danger">
-                    Este campo é obrigatório
+                <div id="typeId" class="text-danger">
+                    {{flashMessages.get('errors.typeId')}}
                 </div>
             @else
                 <select class="form-select" aria-label="Default select example" name="typeId" required>
@@ -84,7 +85,7 @@ Numero de Passos: {{ type.step }}"
                     </option>
                     @endeach
                 </select>
-                <div id="ticketPrize" class="form-text">
+                <div id="typeId" class="form-text text-color-1">
                     Este campo é obrigatório
                 </div>
             @endif
@@ -101,12 +102,12 @@ Numero de Passos: {{ type.step }}"
                 <label for="probableRaffleDate" class="form-label">Provavel data do sorteio</label>
                 <input type="datetime-local" class="form-control is-invalid" id="probableRaffleDate" name="probableRaffleDate" value="{{flashMessages.get('probableRaffleDate') || ''}}">
                 <div id="title" class="text-danger">
-                    Este campo é obrigatório
+                    {{flashMessages.get('errors.probableRaffleDate')}}
                 </div>
             @else    
                 <label for="probableRaffleDate" class="form-label">Provavel data do sorteio</label>
                 <input type="datetime-local" class="form-control" id="probableRaffleDate" name="probableRaffleDate" value="{{flashMessages.get('probableRaffleDate') || ''}}">
-                <div id="title" class="form-text">
+                <div id="title" class="form-text text-color-1">
                     Este campo é obrigatório
                 </div>
             @endif
@@ -117,12 +118,12 @@ Numero de Passos: {{ type.step }}"
                 <label for="initialSaleDate" class="form-label">Data de inicio das vendas</label>
                 <input type="datetime-local" class="form-control is-invalid" id="initialSaleDate" name="initialSaleDate" value="{{flashMessages.get('initialSaleDate') || ''}}">
                 <div id="title" class="text-danger">
-                    Este campo é obrigatório e deve ser antes da data final
+                    {{flashMessages.get('errors.initialSaleDate')}}
                 </div>
             @else
                 <label for="initialSaleDate" class="form-label">Data de inicio das vendas</label>
                 <input type="datetime-local" class="form-control" id="initialSaleDate" name="initialSaleDate" value="{{flashMessages.get('initialSaleDate') || ''}}">
-                <div id="title" class="form-text">
+                <div id="title" class="form-text text-color-1">
                     Este campo é obrigatório e deve ser antes da data final
                 </div>
             @endif
@@ -133,18 +134,18 @@ Numero de Passos: {{ type.step }}"
                 <label for="endSaleDate" class="form-label">Data de término das vendas</label>
                 <input type="datetime-local" class="form-control is-invalid" id="endSaleDate" name="endSaleDate" value="{{flashMessages.get('endSaleDate') || ''}}">
                 <div id="title" class="text-danger">
-                    Este campo é obrigatório
+                    {{flashMessages.get('errors.endSaleDate')}}
                 </div>
             @else
                 <label for="endSaleDate" class="form-label">Data de término das vendas</label>
                 <input type="datetime-local" class="form-control" id="endSaleDate" name="endSaleDate" value="{{flashMessages.get('endSaleDate') || ''}}">
-                <div id="title" class="form-text">
+                <div id="title" class="form-text text-color-1">
                     Este campo é obrigatório
                 </div>
             @endif
         </div>
 
-        <h3 class="text-center text-color-1 mt-5">Adicionar prêmios</h3>
+        <h3 class="text-center text-color-1 mt-5 fs-1">Adicionar prêmios</h3>
         <div class="col-12 premios">
             <div class="row">
                 @if(flashMessages.has('errors.prize'))
@@ -153,14 +154,14 @@ Numero de Passos: {{ type.step }}"
                         <input type="text" class="form-control is-invalid" id="prize1" name="prize1" value="{{flashMessages.get('prize1') || ''}}">
                     </div>
                     <div id="ticketPrize" class="text-danger">
-                        Adcione ao menos um prêmio
+                        {{ flashMessages.get('errors.prize')}}
                     </div>
                 @else
                     <div class="col-3"><span>1º lugar</span></div>
                     <div class="col-9">
                         <input type="text" class="form-control" id="prize1" name="prize1" value="{{flashMessages.get('prize1') || ''}}">
                     </div>
-                    <div id="ticketPrize" class="form-text">
+                    <div id="ticketPrize" class="form-text text-color-1">
                         Adcione ao menos um prêmio
                     </div>
                 @endif
