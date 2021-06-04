@@ -67,13 +67,14 @@
                         </div>
                     @endeach
                 </div>
-                
-            @else
-                <h4 class="text-center text-color-1 fs-5 mt-5">Parece que não há nenhuma rifa disponivel, que tal você criar a primeira ?</h4>
-            
-                <a class="nav-link active text-color-1 text-center" aria-current="page" href="{{ route('raffles.create') }}"><button class="btn btn-color-1">Cadastrar Rifa</button></a>
             @endif
         </div>
+        @if(!finishedRaffles.length > 0)
+            <div class="col-12">
+                <h3 class="text-center text-color-1 my-5">Parece que não há nenhuma rifa disponivel, que tal você criar a primeira ?</h3>
+                <a class="nav-link active text-color-1 text-center" aria-current="page" href="{{ route('raffles.create') }}"><button class="btn btn-color-1 mb-4">Cadastrar Rifa</button></a>
+            </div>
+        @endif
     </div>
    
 @endsection
