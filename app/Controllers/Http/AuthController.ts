@@ -80,6 +80,7 @@ export default class AuthController {
       session.flashAll()
       return false
     }
+
     return true
   }
 

@@ -2,11 +2,60 @@
 
 @section('content')
 
+<nav class="my-4">
+    <ul class="pagination">
+        <li 
+        class="
+        page-item
+        @if(pag == 1)
+        disabled
+        @endif
+        "><a class="page-link text-color-1" href="?pag={{pag-1}}">Previous</a></li>
+
+        <li class="page-item"
+        @if(pag-2 <= 0)
+        hidden
+        @endif
+        ><a class="page-link text-color-1" href="?pag={{pag-2}}">{{pag-2}}</a><li>
+
+        <li class="page-item
+        @if(pag == 1)
+        disabled
+        @endif
+        "><a class="page-link text-color-1" href="?pag={{pag-1}}">{{pag-1}}</a><li>
+
+        <li class="page-item active"><a class="page-link text-color-1" href="?pag={{pag}}">{{pag}}</a><li>
+
+        <li class="page-item 
+        @if(pag == tam)
+        disabled
+        @endif
+        "><a class="page-link text-color-1" href="?pag={{pag+1}}">{{pag+1}}</a></li>
+
+        <li class="page-item"
+        @if(pag+2 >= tam)
+        hidden
+        @endif
+        ><a class="page-link text-color-1" href="?pag={{pag+2}}">{{pag+2}}</a><li>
+
+        <li 
+        class="
+        page-item
+        @if(pag == tam)
+        disabled
+        @endif
+        "><a class="page-link text-color-1" href="?pag={{pag+1}}">Next</a></li>
+    </ul>
+</nav>
+
+
+
+
     <div class="row my-4">
 
     @each(ticket in tickets)
         @if(!ticket.userId)
-        <div class="col-4 my-2">
+        <div class="col-3 my-2 border border-color-1 m-1 p-3">
             <h5 class="card-title">Bilhete Nº {{ ticket.number }}</h5>
             <p class="card-text">asdasd</p>
             <div class="mt-auto mx-auto">
@@ -17,15 +66,19 @@
             </div>
         </div>
         @else
-        <div class="col-4 my-2">
+        <div class="col-3 my-2 border border-color-1 m-1 p-3 ">
             <h5 class="card-title">Bilhete Nº {{ ticket.number }}</h5>
-            <p class="card-text">ads</p>
+            @each(user in users)
+                @if(user.id == ticket.userId)
+                <p class="card-text">Comprado por: {{ user.name }}</p>
+                @endif
+            @endeach
+            
             <div class="mt-auto mx-auto">
                 <button disabled class="btn btn-color-1">Ja comprado</button>
             </div>
         </div>
         @endif
-        
     @endeach
 
     </div>
@@ -38,33 +91,33 @@
             @if(pag == 1)
             disabled
             @endif
-            "><a class="page-link" href="?pag={{pag-1}}">Previous</a></li>
+            "><a class="page-link text-color-1" href="?pag={{pag-1}}">Previous</a></li>
 
             <li class="page-item"
             @if(pag-2 <= 0)
             hidden
             @endif
-            ><a class="page-link" href="?pag={{pag-2}}">{{pag-2}}</a><li>
+            ><a class="page-link text-color-1" href="?pag={{pag-2}}">{{pag-2}}</a><li>
 
             <li class="page-item
             @if(pag == 1)
             disabled
             @endif
-            "><a class="page-link" href="?pag={{pag-1}}">{{pag-1}}</a><li>
+            "><a class="page-link text-color-1" href="?pag={{pag-1}}">{{pag-1}}</a><li>
 
-            <li class="page-item active"><a class="page-link" href="?pag={{pag}}">{{pag}}</a><li>
+            <li class="page-item active"><a class="page-link text-color-1" href="?pag={{pag}}">{{pag}}</a><li>
 
             <li class="page-item 
             @if(pag == tam)
             disabled
             @endif
-            "><a class="page-link" href="?pag={{pag+1}}">{{pag+1}}</a></li>
+            "><a class="page-link text-color-1" href="?pag={{pag+1}}">{{pag+1}}</a></li>
 
             <li class="page-item"
             @if(pag+2 >= tam)
             hidden
             @endif
-            ><a class="page-link" href="?pag={{pag+2}}">{{pag+2}}</a><li>
+            ><a class="page-link text-color-1" href="?pag={{pag+2}}">{{pag+2}}</a><li>
 
             <li 
             class="
@@ -72,7 +125,7 @@
             @if(pag == tam)
             disabled
             @endif
-            "><a class="page-link" href="?pag={{pag+1}}">Next</a></li>
+            "><a class="page-link text-color-1" href="?pag={{pag+1}}">Next</a></li>
         </ul>
-      </nav>
+    </nav>
 @endsection

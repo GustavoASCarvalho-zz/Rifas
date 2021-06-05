@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Raffle from 'App/Models/Raffle'
 import Type from 'App/Models/Type'
+import User from 'App/Models/User'
 
 export default class RafflesController {
   public async index({}: HttpContextContract) {}
@@ -45,6 +46,8 @@ export default class RafflesController {
     }
 
     try {
+      console.log('a')
+
       const user = auth.user
       const raffle = await user?.related('raffles').create(rifa)
       const type = await Type.query().where('id', data.typeId).firstOrFail()
@@ -60,14 +63,14 @@ export default class RafflesController {
     } catch (error) {
       return response.redirect().toRoute('raffles.create')
     }
-    session.flash('notice', 'Rifa cadastrada com sucesso')
     response.redirect().toRoute('/')
   }
 
   public async show({ view, params }: HttpContextContract) {
     const raffle = await Raffle.query().where('id', params.id).firstOrFail()
-
-    return view.render('raffles/show', { raffle })
+    const prizes = await raffle.related('prizes').query()
+    const user = await User.query().where('id', raffle.userId).firstOrFail()
+    return view.render('raffles/show', { raffle, prizes, user })
   }
 
   public async edit({ view, params }: HttpContextContract) {
@@ -84,8 +87,6 @@ export default class RafflesController {
     }
 
     await Raffle.query().where('id', params.id).update({ raffle_date: data.raffleDate })
-
-    session.flash('notice', 'Rifa finalizada com sucesso')
     response.redirect().toRoute('/')
   }
 

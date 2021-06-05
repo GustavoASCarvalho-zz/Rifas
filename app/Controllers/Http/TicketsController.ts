@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Raffle from 'App/Models/Raffle'
 import Ticket from 'App/Models/Ticket'
+import User from 'App/Models/User'
 
 export default class TicketsController {
   public async index({}: HttpContextContract) {}
@@ -11,7 +12,7 @@ export default class TicketsController {
 
   public async show({ view, params, request }: HttpContextContract) {
     const raffle = await Raffle.query().where('id', params.id).firstOrFail()
-
+    const users = await User.query()
     let pag = request.input('pag', 1)
     const limit = 100
 
@@ -19,7 +20,7 @@ export default class TicketsController {
 
     const tickets = await raffle.related('tickets').query().paginate(pag, limit)
     pag = parseInt(pag)
-    return view.render('tickets/show', { tickets, pag, tam })
+    return view.render('tickets/show', { tickets, pag, tam, users })
   }
 
   public async buy({ params, response, auth }: HttpContextContract) {

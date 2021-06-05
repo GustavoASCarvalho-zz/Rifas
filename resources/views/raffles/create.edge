@@ -1,6 +1,7 @@
 @layout('layout/app')
 
 @section('content')
+{{ inspect(flashMessages.all())}}
 <div class="d-flex justify-content-center mt-5">
     <form class="row g-3" action="{{ route('raffles.store') }}" method="post">
         {{ csrfField() }}
@@ -89,11 +90,23 @@ Numero de Passos: {{ type.step }}"
                 </div>
             @endif
         </div>
+
         <div class="col-12">
-            <div class="form-floating">
-                <textarea class="form-control" id="description" style="height: 100px" name="description">{{flashMessages.get('description') || ''}}</textarea>
-                <label for="description">Descrição</label>
-            </div>
+
+            @if(flashMessages.has('errors.description'))
+                <div class="form-floating">
+                    <textarea class="form-control" id="description" style="height: 100px" name="description">{{flashMessages.get('description') || ''}}</textarea>
+                    <label for="description">Descrição</label>
+                </div>
+                <div id="description" class="text-danger">
+                    {{flashMessages.get('errors.description')}}
+                </div>
+            @else
+                <div class="form-floating">
+                    <textarea class="form-control" id="description" style="height: 100px" name="description">{{flashMessages.get('description') || ''}}</textarea>
+                    <label for="description">Descrição</label>
+                </div>
+            @endif  
         </div>
 
         <div class="col-12">

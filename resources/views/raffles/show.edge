@@ -9,6 +9,7 @@
             <p class="card-text">{{raffle.description || 'sem descrição'}}</p>
         </div>
         <ul class="list-group list-group-flush my-3 text-center">
+            <li class="list-group-item">Criado por: {{ user.name }}</li>
             @if(raffle.raffleDate)
                 <li class="list-group-item">Data de realização do sorteio: {{raffle.raffleDate.toLocaleString()}}</li>
             @else
@@ -16,6 +17,10 @@
             @endif
             <li class="list-group-item">Inicio das vendas: {{ raffle.initialSaleDate.toLocaleString() }} </li>
             <li class="list-group-item">Término das vendas: {{ raffle.endSaleDate.toLocaleString() }}</li>
+            <h5 class="card-title mt-4"> Prêmios </h5>
+            @each(prize in prizes)
+            <li class="list-group-item">{{ prize.placing }}º Lugar: {{ prize.description }}</li>
+            @endeach
         </ul>
         <div class="card-body d-flex justify-content-end">
             <a href="{{ route('tickets.show', {id: raffle.id})}}?pag=1" class="btn btn-color-1 text-end">Comprar bilhetes {{ raffle.ticketPrize }} R$</a>
