@@ -7,29 +7,30 @@
     <h2 class="text-center text-color-1 mt-5 fs-1">
     
         @if(auth.isLoggedIn)
-            Olá <span class="text-color-3">{{ auth.user?.name }}</span>, que bom ver você de novo!
+            Olá <span class="text-color-2">{{ auth.user?.name }}</span>, que bom ver você de novo!
         @else
             Seja-Bem vindo(a)
         @endif
     </h2>
-    <p class="text-center text-color-1 fs-5">Conheça nosso site de Rifas! <span class="text-color-3">Crie</span>, <span class="text-color-3">compre</span> e <span class="text-color-3">participe<span>!</p>
+    <p class="text-center text-color-1 fs-5">Conheça nosso site de Rifas! <span class="text-color-2">Crie</span>, <span class="text-color-2">compre</span> e <span class="text-color-2">participe<span>!</p>
 
-    
+        {{ inspect(arrayAboutUser) }}
+
         @if(auth.isLoggedIn)
             @if(userRaffles.length > 0)
-                <h3 class="text-center text-color-1 my-5">Rifas que você cadastrou</h3>
+                <h3 class="text-center text-color-1 my-5">Rifas que você criou</h3>
                 
                 <div class="row">
                     @each(raffle in userRaffles)
                         <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-self-stretch">
-                            <div class="card w-100 bg-color-4">
+                            <div class="card w-100 bg-color-2">
                                 <div class="card-body d-flex flex-column">
                                     @if(raffle.raffleDate)
                                         <span class="badge bg-success align-self-end">Finalizada</span>
                                     @else
                                         <span class="badge bg-danger align-self-end">Não Finalizada</span>
                                     @endif
-                                    <h5 class="card-title">{{ raffle.title }}</h5>
+                                    <h5 class="card-title text-center">{{ raffle.title }}</h5>
                                     <p class="card-text text-center my-4"> {{ raffle.description }}</p>
                                     <div class="mt-auto mx-auto">
                                         <a href="{{ route('raffles.show', {id: raffle.id} )}}" class="btn btn-lg btn-color-1">Ver</a>
@@ -42,10 +43,29 @@
                         </div>
                     @endeach
                 </div>
-                
             @endif
         @endif
 
+        @if(userRaffles.length > 0)
+            <h3 class="text-center text-color-1 my-5">Rifas que você participa</h3>
+                    
+            <div class="row">
+                @each(userJoinRaffle in userJoinRaffles)
+                    <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-self-stretch">
+                        <div class="card w-100 bg-color-2">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title text-center">{{ userJoinRaffle.title }}</h5>
+                                <p class="card-text text-center my-4"> {{ userJoinRaffle.description }}</p>
+                                <div class="mt-auto mx-auto">
+                                    <a href="{{ route('raffles.show', {id: userJoinRaffle.id} )}}" class="btn btn-lg btn-color-1">Ver</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endeach
+            </div>
+        @endif
+        
         @if(finishedRaffles.length > 0)
             <h3 class="text-center text-color-1 my-5">Nossas rifas disponiveis</h3>
         
@@ -56,7 +76,7 @@
                             <div class="card-body d-flex flex-column">
                                 @each(user in users)
                                     @if(user.id == raffle.userId)
-                                    <span class="badge bg-color-2 align-self-end">{{user.name}}</span>
+                                    <span class="badge bg-color-2 align-self-end text-wrap">{{user.name}}</span>
                                     @endif
                                 @endeach
                                 <h5 class="card-title">{{ raffle.title }}</h5>
