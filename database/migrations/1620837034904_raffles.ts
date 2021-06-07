@@ -15,6 +15,7 @@ export default class Raffles extends BaseSchema {
       table.dateTime('end_sale_date').notNullable()
       table.dateTime('raffle_date')
       table.float('ticket_prize').notNullable()
+      table.boolean('drawn').notNullable().defaultTo(false)
       table.timestamps(true)
     })
   }

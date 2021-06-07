@@ -9,15 +9,15 @@
 
         <div class="col-12">
             @if(flashMessages.has('errors.raffleDate'))
-                <label for="raffleDate" class="form-label">Data definitiva do sorteio</label>
+                <label for="raffleDate" class="form-label text-color-1 fs-4">Data definitiva do sorteio</label>
                 <input type="datetime-local" class="form-control is-invalid" id="raffleDate" name="raffleDate" value="{{flashMessages.get('raffleDate') || ''}}">
                 <div id="ticketPrize" class="text-danger">
                     {{flashMessages.get('errors.raffleDate')}}
                 </div>
             @else
-                <label for="raffleDate" class="form-label">Data definitiva do sorteio</label>
+                <label for="raffleDate" class="form-label text-color-1 fs-4">Data definitiva do sorteio</label>
                 <input type="datetime-local" class="form-control" id="raffleDate" name="raffleDate" value="{{flashMessages.get('raffleDate') || ''}}">
-                <div id="ticketPrize" class="form-text text-color-1">
+                <div id="ticketPrize" class="form-text text-color-2">
                     Este campo é obrigatório
                 </div>
             @endif

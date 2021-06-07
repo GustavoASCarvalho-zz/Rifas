@@ -20,9 +20,10 @@ try {
     divPremios.firstChild
 
     div1.classList.add('row')
-    div1.classList.add('my-2')
+    div1.classList.add('my-4')
 
     div2.classList.add('col-3')
+    span.classList.add('text-color-1')
 
     span.appendChild(document.createTextNode(`${status.qtdAdicionada + 2}º lugar`))
 

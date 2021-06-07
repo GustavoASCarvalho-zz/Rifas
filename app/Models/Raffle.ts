@@ -45,6 +45,9 @@ export default class Raffle extends BaseModel {
   @column()
   public ticketPrize: number
 
+  @column()
+  public drawn: boolean
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

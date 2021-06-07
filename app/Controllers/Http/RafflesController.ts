@@ -86,6 +86,8 @@ export default class RafflesController {
       return response.redirect().back()
     }
 
+    console.log(this.validateEdit(data, raffle, session))
+
     if (!this.validateEdit(data, raffle, session)) {
       return response.redirect().back()
     }
@@ -139,7 +141,7 @@ export default class RafflesController {
     }
 
     if (data.description) {
-      if (data.description.length > 100) {
+      if (data.description.length > 45) {
         this.registerError(errors, 'description', 'A descrição precisa ter no máximo 45 caracteres')
       }
     }
@@ -148,11 +150,11 @@ export default class RafflesController {
       this.registerError(errors, 'title', 'Campo obrigatório')
     } else {
       if (data.title.length < 3) {
-        this.registerError(errors, 'title', 'Nome precisa ter pelo menos 3 caracteres')
+        this.registerError(errors, 'title', 'Titulo precisa ter pelo menos 3 caracteres')
       }
 
       if (data.title.length > 20) {
-        this.registerError(errors, 'title', 'Nome precisa ter no máximo 20 caracteres')
+        this.registerError(errors, 'title', 'Titulo precisa ter no máximo 20 caracteres')
       }
     }
 
@@ -222,13 +224,16 @@ export default class RafflesController {
 
   private async validateEdit(data, raffle, session): Promise<Boolean> {
     const errors = {}
+    console.log(data.raffleDate)
+    console.log(new Date(Date.now()).toLocaleDateString())
+
     if (!data.raffleDate) {
       this.registerError(errors, 'raffleDate', 'Campo obrigatório')
     } else if (new Date(data.raffleDate).getTime() < new Date(raffle.endSaleDate).getTime()) {
       this.registerError(
         errors,
         'raffleDate',
-        `data do sorteio tem que ser antes de: ${raffle.endSaleDate.toLocaleString()}`
+        `data do sorteio tem que ser depois de: ${raffle.endSaleDate.toLocaleString()}`
       )
     } else if (new Date(data.raffleDate).getTime() < Date.now()) {
       this.registerError(errors, 'raffleDate', `data do sorteio ja passou`)
@@ -237,6 +242,7 @@ export default class RafflesController {
     if (Object.entries(errors).length > 0) {
       session.flash('errors', errors)
       session.flashAll()
+
       return false
     }
     return true
