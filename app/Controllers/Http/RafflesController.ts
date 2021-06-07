@@ -1,4 +1,5 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import Prize from 'App/Models/Prize'
 import Raffle from 'App/Models/Raffle'
 import Type from 'App/Models/Type'
 import User from 'App/Models/User'
@@ -46,8 +47,6 @@ export default class RafflesController {
     }
 
     try {
-      console.log('a')
-
       const user = auth.user
       const raffle = await user?.related('raffles').create(rifa)
       const type = await Type.query().where('id', data.typeId).firstOrFail()
@@ -79,10 +78,15 @@ export default class RafflesController {
     return view.render('raffles/edit', { raffle, tickets })
   }
 
-  public async update({ response, request, session, params }: HttpContextContract) {
+  public async update({ response, request, session, params, auth }: HttpContextContract) {
     const data = await request.all()
+    const raffle = await Raffle.query().where('id', params.id).firstOrFail()
 
-    if (!this.validateEdit(data, session)) {
+    if (raffle.userId !== auth.user?.id) {
+      return response.redirect().back()
+    }
+
+    if (!this.validateEdit(data, raffle, session)) {
       return response.redirect().back()
     }
 
@@ -91,6 +95,37 @@ export default class RafflesController {
   }
 
   public async destroy({}: HttpContextContract) {}
+
+  public async draw({ response, params, auth }: HttpContextContract) {
+    const raffle = await Raffle.query()
+      .where('id', params.id)
+      .preload('tickets', (ticketQuery) => {
+        ticketQuery.whereNotNull('user_id')
+      })
+      .firstOrFail()
+
+    if (auth.user?.id === raffle.userId && new Date(raffle.raffleDate).getDate() <= Date.now()) {
+      await raffle.load('prizes')
+
+      for (let i = 0; i < raffle.prizes.length; i++) {
+        if (raffle.tickets.length > 0) {
+          //pegar um numero que não seja repetido
+          const numeroSorteio = Math.floor(Math.random() * raffle.tickets.length)
+          const ticketId = raffle.tickets[numeroSorteio].id
+
+          raffle.prizes[i].winningTicketId = ticketId
+          await Prize.query()
+            .where('id', raffle.prizes[i].id)
+            .update({ winning_ticket_id: ticketId })
+          raffle.tickets.splice(numeroSorteio, 1)
+        }
+      }
+
+      return response.redirect().toRoute('raffles.show', { id: raffle.id })
+    } else {
+      return response.redirect().back()
+    }
+  }
 
   private validate(data, session): Boolean {
     const errors = {}
@@ -123,26 +158,54 @@ export default class RafflesController {
 
     if (!data.ticketPrize) {
       this.registerError(errors, 'ticketPrize', 'Campo obrigatório')
-    } else {
-      if (isNaN(data.ticketPrize)) {
-        this.registerError(errors, 'ticketPrize', 'Preço precisa ser um número')
-      }
+    } else if (isNaN(data.ticketPrize)) {
+      this.registerError(errors, 'ticketPrize', 'Preço precisa ser um número')
     }
 
     if (!data.probableRaffleDate) {
       this.registerError(errors, 'probableRaffleDate', 'Campo obrigatório')
+    } else if (new Date(data.probableRaffleDate).getTime() < Date.now()) {
+      this.registerError(errors, 'probableRaffleDate', 'A data inserida já passou')
+    } else if (data.probableSaleDate < data.endSaleDate) {
+      this.registerError(
+        errors,
+        'probableRaffleDate',
+        'Provavel data de sorteio deve ser depois da data final de vendas'
+      )
     }
 
     if (!data.initialSaleDate) {
       this.registerError(errors, 'initialSaleDate', 'Campo obrigatório')
+    } else if (data.initialSaleDate > data.probableRaffleDate) {
+      this.registerError(
+        errors,
+        'initialSaleDate',
+        'Data inicial deve ser antes da data provável de sorteio'
+      )
+    } else if (data.initialSaleDate > data.endSaleDate) {
+      this.registerError(
+        errors,
+        'initialSaleDate',
+        'Data inicial deve ser antes da data final de vendas'
+      )
     }
 
     if (!data.endSaleDate) {
       this.registerError(errors, 'endSaleDate', 'Campo obrigatório')
-    }
-
-    if (data.initialSaleDate > data.endSaleDate) {
-      this.registerError(errors, 'initialSaleDate', 'Data inicial deve ser antes da data final')
+    } else if (new Date(data.endSaleDate).getTime() < Date.now()) {
+      this.registerError(errors, 'endSaleDate', 'A data de vendas já passou')
+    } else if (data.endSaleDate > data.probableRaffleDate) {
+      this.registerError(
+        errors,
+        'endSaleDate',
+        'Data final das vendas deve ser antes da data provável de sorteio'
+      )
+    } else if (data.endSaleDate < data.initialSaleDate) {
+      this.registerError(
+        errors,
+        'endSaleDate',
+        'Data final de vendas deve ser depois da data inicial de vendas'
+      )
     }
 
     if (!data.prize1) {
@@ -157,11 +220,18 @@ export default class RafflesController {
     return true
   }
 
-  private validateEdit(data, session): Boolean {
+  private async validateEdit(data, raffle, session): Promise<Boolean> {
     const errors = {}
-
     if (!data.raffleDate) {
       this.registerError(errors, 'raffleDate', 'Campo obrigatório')
+    } else if (new Date(data.raffleDate).getTime() < new Date(raffle.endSaleDate).getTime()) {
+      this.registerError(
+        errors,
+        'raffleDate',
+        `data do sorteio tem que ser antes de: ${raffle.endSaleDate.toLocaleString()}`
+      )
+    } else if (new Date(data.raffleDate).getTime() < Date.now()) {
+      this.registerError(errors, 'raffleDate', `data do sorteio ja passou`)
     }
 
     if (Object.entries(errors).length > 0) {

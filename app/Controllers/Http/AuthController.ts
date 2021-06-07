@@ -8,8 +8,9 @@ export default class AuthController {
 
   public async store({ request, response, auth, session }: HttpContextContract) {
     const data = request.only(['name', 'email', 'password', 'admin'])
+    const users = await User.query()
 
-    if (!this.validate(data, session, true)) {
+    if ((await this.validateStore(data, session, users)) === false) {
       return response.redirect().back()
     }
 
@@ -29,7 +30,9 @@ export default class AuthController {
   public async verify({ request, response, session, auth }: HttpContextContract) {
     const data = request.only(['email', 'password', 'remember'])
 
-    if (!this.validate(data, session, false)) {
+    console.log(await User.query())
+
+    if (!this.validateVerify(data, session)) {
       return response.redirect().back()
     }
     await auth.attempt(data.email, data.password, data.remember === 'true')
@@ -42,30 +45,45 @@ export default class AuthController {
     response.redirect().toRoute('home.index')
   }
 
-  private async validate(data, session, registerOrLogin): Promise<Boolean> {
+  private async validateStore(data, session, users): Promise<Boolean> {
     const errors = {}
 
-    if (registerOrLogin) {
-      if (!data.name) {
-        this.registerError(errors, 'name', 'Campo obrigatório')
-      } else {
-        if (data.name.lenght < 3) {
-          this.registerError(errors, 'name', 'Nome precisa ter pelo menos 3 caracteres')
-        }
+    if (!data.name) {
+      this.registerError(errors, 'name', 'Campo obrigatório')
+    } else if (data.name.length < 3) {
+      this.registerError(errors, 'name', 'Nome precisa ter pelo menos 3 caracteres')
+    } else if (data.name.length > 25) {
+      this.registerError(errors, 'name', 'Nome precisa ter no máximo 25 caracteres')
+    }
 
-        if (data.name.lenght > 25) {
-          this.registerError(errors, 'name', 'Nome precisa ter no máximo 25 caracteres')
+    if (!data.email) {
+      this.registerError(errors, 'email', 'Campo obrigatório')
+    } else {
+      for (const u of users) {
+        if (u.email === data.email) {
+          this.registerError(errors, 'email', 'Email já cadastrado')
         }
       }
     }
 
-    const usuarios = await User.query()
-
-    for (const u of usuarios) {
-      if (u.email === data.email) {
-        this.registerError(errors, 'email', 'Email ja existe')
-      }
+    if (!data.password) {
+      this.registerError(errors, 'password', 'Campo obrigatório')
+    } else if (data.password.length < 3) {
+      this.registerError(errors, 'password', 'Senha precisa ter pelo menos 3 caracteres')
+    } else if (data.password.length > 16) {
+      this.registerError(errors, 'password', 'Senha precisa ter no máximo 16 caracteres')
     }
+
+    if (Object.entries(errors).length > 0) {
+      session.flash('errors', errors)
+      session.flashAll()
+      return false
+    }
+    return true
+  }
+
+  private async validateVerify(data, session): Promise<Boolean> {
+    const errors = {}
 
     if (!data.email) {
       this.registerError(errors, 'email', 'Campo obrigatório')
@@ -78,6 +96,7 @@ export default class AuthController {
     if (Object.entries(errors).length > 0) {
       session.flash('errors', errors)
       session.flashAll()
+
       return false
     }
 

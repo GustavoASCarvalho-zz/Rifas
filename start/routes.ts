@@ -5,6 +5,7 @@ Route.group(() => {
   Route.post('/raffles', 'RafflesController.store').as('raffles.store')
   Route.get('/raffles/:id/edit', 'RafflesController.edit').as('raffles.edit')
   Route.post('/raffles/:id/update', 'RafflesController.update').as('raffles.update')
+  Route.get('/raffles/:id/draw', 'RafflesController.draw').as('raffles.draw')
 
   Route.post('/raffles/:id/tickets/:ticketId/buy', 'TicketsController.buy').as('ticket.buy')
 

@@ -30,8 +30,13 @@
                                     <p class="card-text text-center"> {{ raffle.description || 'sem descrição' }}</p>
                                     <div class="mt-auto mx-auto">
                                         <a href="{{ route('raffles.show', {id: raffle.id} )}}" class="btn btn-lg btn-color-1">Ver</a>
-                                        @if(!raffle.raffleDate)
-                                            <a href="{{ route('raffles.edit', {id: raffle.id} )}}" class="btn btn-lg btn-success">Finalizar</a>
+                                       
+                                        @if(new Date(raffle.raffleDate).getTime() <= Date.now() && raffle.raffleDate)
+                                            <a href="{{ route('raffles.draw', {id: raffle.id} )}}" class="btn btn-lg btn-color-1">Sortear</a>
+                                        @elseif(!raffle.raffleDate)
+                                            <a href="{{ route('raffles.edit', {id: raffle.id} )}}" class="btn btn-lg btn-color-1">Finalizar</a>
+                                        @elseif(raffle)
+                                            <a href="{{ route('tickets.show', {id: raffle.id} )}}" class="btn btn-lg btn-success">Comprar</a>
                                         @endif
                                     </div>
                                 </div>
@@ -42,7 +47,7 @@
             @endif
         @endif
 
-        @if(userRaffles)
+        @if(userJoinRaffles && userJoinRaffles.length > 0)
             <h3 class="text-center text-color-1 my-5">Rifas que você participa</h3>
                     
             <div class="row">
@@ -65,6 +70,7 @@
                                 @endeach
                                 <div class="mt-auto mx-auto">
                                     <a href="{{ route('raffles.show', {id: userJoinRaffle.id} )}}" class="btn btn-lg btn-color-1">Ver</a>
+                                    <a href="{{ route('tickets.show', {id: userJoinRaffle.id} )}}" class="btn btn-lg btn-success">Comprar</a>
                                 </div>
                             </div>
                         </div>
@@ -79,22 +85,35 @@
             <div class="row">
                 @each(raffle in finishedRaffles)
                     <div class="col-12 col-md-6 col-lg-3 mb-4 d-flex align-self-stretch">
-                        <div class="card w-100 bg-color-5">
+                        <div class="card w-100 bg-color-2">
                             <div class="card-body d-flex flex-column">
                                 @each(user in users)
                                     @if(user.id == raffle.userId)
-                                    <span class="badge bg-color-4 align-self-end text-wrap">{{user.name}}</span>
+                                    <span class="badge bg-color-4 align-self-end text-wrap my-1 p-2">{{user.name}}</span>
                                     @endif
                                 @endeach
-                                <h5 class="card-title">{{ raffle.title }}</h5>
-                                <p class="card-text text-center my-4"> {{ raffle.description || 'sem descrição'}}</p>
-                                <a href="{{ route('raffles.show', {id: raffle.id} )}}" class="btn btn-lg btn-color-1 mt-auto mx-auto">Ver</a>
+                                <h5 class="card-title my-1 text-center">{{ raffle.title }}</h5>
+                                <p class="card-text text-center"> {{ raffle.description || 'sem descrição'}}</p>
+                                @each(time in timeToRaffleDate)
+                                    @if(time.raffleId == raffle.id)
+                                        <p class="card-text text-center my-1"> Faltam {{time.time}} para o sorteio </p>
+                                    @endif
+                                @endeach
+                                <h5 class="card-title my-1 fs-6 text-center">Prêmios</h5>
+                                @each(prize in prizes)
+                                    @if(prize.raffleId == raffle.id)
+                                    <p class="card-text text-center my-1">{{ prize.placing }}º Lugar: {{ prize.description }}</p>
+                                    @endif
+                                @endeach
+                                <div class="mt-auto mx-auto">
+                                    <a href="{{ route('raffles.show', {id: raffle.id} )}}" class="btn btn-lg btn-color-1 mt-auto mx-auto">Ver</a>
+                                    <a href="{{ route('tickets.show', {id: raffle.id} )}}" class="btn btn-lg btn-success">Comprar</a>
+                                </div>
                             </div>
                         </div>
                     </div>
                 @endeach
             </div>
-
         @else
             <div class="col-12">
                 <h3 class="text-center text-color-1 my-5">Parece que não há nenhuma rifa disponivel, que tal você criar a primeira ?</h3>

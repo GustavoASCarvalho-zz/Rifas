@@ -1,7 +1,6 @@
 @layout('layout/app')
 
 @section('content')
-{{ inspect(flashMessages.all())}}
 <div class="d-flex justify-content-center mt-5">
     <form class="row g-3" action="{{ route('raffles.store') }}" method="post">
         {{ csrfField() }}
