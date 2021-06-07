@@ -86,8 +86,6 @@ export default class RafflesController {
       return response.redirect().back()
     }
 
-    console.log(this.validateEdit(data, raffle, session))
-
     if (!this.validateEdit(data, raffle, session)) {
       return response.redirect().back()
     }
@@ -222,10 +220,8 @@ export default class RafflesController {
     return true
   }
 
-  private async validateEdit(data, raffle, session): Promise<Boolean> {
+  private validateEdit(data, raffle, session): Boolean {
     const errors = {}
-    console.log(data.raffleDate)
-    console.log(new Date(Date.now()).toLocaleDateString())
 
     if (!data.raffleDate) {
       this.registerError(errors, 'raffleDate', 'Campo obrigatório')

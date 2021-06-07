@@ -10,7 +10,7 @@ export default class AuthController {
     const data = request.only(['name', 'email', 'password', 'admin'])
     const users = await User.query()
 
-    if ((await this.validateStore(data, session, users)) === false) {
+    if (!this.validateStore(data, session, users)) {
       return response.redirect().back()
     }
 
@@ -30,8 +30,6 @@ export default class AuthController {
   public async verify({ request, response, session, auth }: HttpContextContract) {
     const data = request.only(['email', 'password', 'remember'])
 
-    console.log(await User.query())
-
     if (!this.validateVerify(data, session)) {
       return response.redirect().back()
     }
@@ -45,7 +43,7 @@ export default class AuthController {
     response.redirect().toRoute('home.index')
   }
 
-  private async validateStore(data, session, users): Promise<Boolean> {
+  private validateStore(data, session, users): Boolean {
     const errors = {}
 
     if (!data.name) {
@@ -82,7 +80,7 @@ export default class AuthController {
     return true
   }
 
-  private async validateVerify(data, session): Promise<Boolean> {
+  private validateVerify(data, session): Boolean {
     const errors = {}
 
     if (!data.email) {
