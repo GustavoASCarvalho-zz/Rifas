@@ -103,8 +103,10 @@ export default class RafflesController {
       }
     }
 
-    if (data.description.length > 100) {
-      this.registerError(errors, 'description', 'A descrição precisa ter no máximo 45 caracteres')
+    if (data.description) {
+      if (data.description.length > 100) {
+        this.registerError(errors, 'description', 'A descrição precisa ter no máximo 45 caracteres')
+      }
     }
 
     if (!data.title) {
