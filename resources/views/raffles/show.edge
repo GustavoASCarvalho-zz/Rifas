@@ -23,7 +23,11 @@
             @endeach
         </ul>
         <div class="card-body d-flex justify-content-end">
-            <a href="{{ route('tickets.show', {id: raffle.id})}}?pag=1" class="btn btn-color-1 text-end">Comprar bilhetes {{ raffle.ticketPrize }} R$</a>
+            @if(!raffle.raffleDate && raffle.userId == auth.user?.id)
+                <a href="{{ route('raffles.edit', {id: raffle.id} )}}" class="btn btn-success">Finalizar</a>
+            @else
+                <a href="{{ route('tickets.show', {id: raffle.id})}}?pag=1" class="btn btn-color-1 text-end">Comprar bilhetes {{ raffle.ticketPrize }} R$</a>
+            @endif
         </div>
     </div>
 @endsection

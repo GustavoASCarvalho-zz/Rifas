@@ -20,6 +20,7 @@ export default class HomeController {
       for (const raffle of raffles2) {
         numberOfTickets = 0
         for (const ticket of raffle.tickets) {
+          ticket.$options
           numberOfTickets++
         }
         if (numberOfTickets > 0) {
@@ -27,17 +28,21 @@ export default class HomeController {
 
           const secondsDiff = (raffle.raffleDate.getTime() - Date.now()) / 1000
           let timeTo
-          console.log(secondsDiff / 3600)
-          if (secondsDiff / 3600 > 24) {
-            timeTo = `Faltam ${(secondsDiff / 3600 / 24).toFixed(1)} dias`
-          } else {
-            timeTo = `Faltam ${(secondsDiff / 3600 / 60).toFixed(1)} horas`
+          if (secondsDiff >= 0) {
+            if (secondsDiff / 3600 > 24) {
+              timeTo = `${(secondsDiff / 3600 / 24).toFixed(1)} dias`
+            } else if (secondsDiff / 3600 < 1) {
+              timeTo = `${(secondsDiff / 60).toFixed(1)} minutos`
+            } else {
+              timeTo = `${(secondsDiff / 3600).toFixed(1)} horas`
+            }
           }
 
           let aboutUser = {
+            raffleId: raffle.id,
             qtd: numberOfTickets,
             amountSpent: numberOfTickets * raffle.ticketPrize,
-            timeToDoorPrizeInSeconds: timeTo,
+            timeToDoorPrize: timeTo,
           }
           arrayAboutUser.push(aboutUser)
         }
