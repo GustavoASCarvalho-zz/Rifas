@@ -6,20 +6,30 @@ import User from 'App/Models/User'
 export default class HomeController {
   public async index({ view, auth }: HttpContextContract) {
     const prizes = await Prize.query()
-    const user = auth.user
-    let raffles2: Array<Raffle> = []
-    let userJoinRaffles: Array<Raffle> = []
-    let arrayAboutUser: Array<Object> = []
-
     const raffles = await Raffle.query()
+    const user = auth.user
+    const users = await User.query()
+
+    let rafflesTickets: Array<Raffle> = []
+    let userJoinRaffles: Array<Raffle> = []
+    let userAbout: Array<Object> = []
+    let timeToRaffleDate: Array<Object> = []
+    let raffleAbout = {
+      haveRaffles: false,
+      userHaveRaffles: false,
+      userJoinRaffles: false,
+    }
+
+    // tickets em que o usuario participa
+
     if (user?.id) {
-      raffles2 = await Raffle.query().preload('tickets', (ticketQuery) => {
+      rafflesTickets = await Raffle.query().preload('tickets', (ticketQuery) => {
         ticketQuery.where('userId', user.id)
       })
 
       let numberOfTickets = 0
 
-      for (const raffle of raffles2) {
+      for (const raffle of rafflesTickets) {
         numberOfTickets = 0
         for (const ticket of raffle.tickets) {
           ticket.$options
@@ -27,73 +37,91 @@ export default class HomeController {
         }
         if (numberOfTickets > 0) {
           userJoinRaffles.push(raffle)
-
-          const secondsDiff = (raffle.raffleDate.getTime() - Date.now()) / 1000
-          let timeTo
-          if (secondsDiff >= 0) {
-            if (secondsDiff / 3600 > 24) {
-              timeTo = `${(secondsDiff / 3600 / 24).toFixed(1)} dias`
-            } else if (secondsDiff / 3600 < 1) {
-              timeTo = `${(secondsDiff / 60).toFixed(1)} minutos`
-            } else {
-              timeTo = `${(secondsDiff / 3600).toFixed(1)} horas`
-            }
-          }
-
-          let aboutUser = {
+          raffleAbout.userJoinRaffles = true
+          let obj = {
             raffleId: raffle.id,
             qtd: numberOfTickets,
             amountSpent: numberOfTickets * raffle.ticketPrize,
-            timeToDoorPrize: timeTo,
           }
-          arrayAboutUser.push(aboutUser)
+          userAbout.push(obj)
         }
       }
     }
 
-    const userRaffles = await user?.related('raffles').query()
-    const users = await User.query()
-
-    let finishedRaffles: Array<Raffle> = []
-    let timeToRaffleDate: Array<Object> = []
+    //rifas
 
     for (const raffle of raffles) {
+      if (user?.id === raffle.userId) raffleAbout.userHaveRaffles = true
       if (raffle.raffleDate) {
-        finishedRaffles.push(raffle)
-        const secondsDiff = (raffle.raffleDate.getTime() - Date.now()) / 1000
-        let timeTo
-        if (secondsDiff >= 0) {
-          if (secondsDiff / 3600 > 24) {
-            timeTo = `${(secondsDiff / 3600 / 24).toFixed(1)} dias`
-          } else if (secondsDiff / 3600 < 1) {
-            timeTo = `${(secondsDiff / 60).toFixed(1)} minutos`
-          } else {
-            timeTo = `${(secondsDiff / 3600).toFixed(1)} horas`
-          }
+        if (
+          new Date(raffle.endSaleDate).getTime() >= Date.now() &&
+          Date.now() >= new Date(raffle.initialSaleDate).getTime()
+        ) {
+          raffleAbout.haveRaffles = true
         }
 
+        const secondsDiffRD = (raffle.raffleDate.getTime() - Date.now()) / 1000 //Raffle data
+        const secondsDiffESD = (raffle.endSaleDate.getTime() - Date.now()) / 1000 // End Sale Date
         let obj = {
           raffleId: raffle.id,
-          time: timeTo,
+          timeEndSaleDate: {
+            days: (secondsDiffESD / 86400).toFixed(0),
+            hours: (secondsDiffESD / 3600).toFixed(0),
+            minutes: (secondsDiffESD / 60).toFixed(0),
+            seconds: secondsDiffESD.toFixed(0),
+          },
+          timeRaffleDate: {
+            days: (secondsDiffRD / 86400).toFixed(0),
+            hours: (secondsDiffRD / 3600).toFixed(0),
+            minutes: (secondsDiffRD / 60).toFixed(0),
+            seconds: secondsDiffRD.toFixed(0),
+          },
+        }
+        timeToRaffleDate.push(obj)
+      } else {
+        const secondsDiffESD = (raffle.endSaleDate.getTime() - Date.now()) / 1000 // End Sale Date
+        let obj = {
+          raffleId: raffle.id,
+          timeEndSaleDate: {
+            days: (secondsDiffESD / 86400).toFixed(0),
+            hours: (secondsDiffESD / 3600).toFixed(0),
+            minutes: (secondsDiffESD / 60).toFixed(0),
+            seconds: secondsDiffESD.toFixed(0),
+          },
         }
         timeToRaffleDate.push(obj)
       }
     }
 
-    //rifas na qual o usuario participa
-
     return view.render('home/index', {
       raffles,
-      userRaffles,
-      finishedRaffles,
       users,
-      userJoinRaffles,
-      arrayAboutUser,
       prizes,
+      userJoinRaffles,
+      userAbout,
       timeToRaffleDate,
+      raffleAbout,
     })
   }
   public async about({ view }: HttpContextContract) {
     return view.render('home/about')
   }
 }
+
+/*
+ private time = (raffle) => {
+    const secondsDiff = (raffle.raffleDate.getTime() - Date.now()) / 1000
+    let timeTo
+    if (secondsDiff >= 0) {
+      if (secondsDiff / 3600 > 24) {
+        timeTo = `${(secondsDiff / 3600 / 24).toFixed(1)} dias`
+      } else if (secondsDiff / 3600 < 1) {
+        timeTo = `${(secondsDiff / 60).toFixed(1)} minutos`
+      } else {
+        timeTo = `${(secondsDiff / 3600).toFixed(1)} horas`
+      }
+    }
+    return timeTo
+  }
+  
+  */

@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Prize from 'App/Models/Prize'
 import Raffle from 'App/Models/Raffle'
+import Ticket from 'App/Models/Ticket'
 import Type from 'App/Models/Type'
 import User from 'App/Models/User'
 
@@ -69,7 +70,22 @@ export default class RafflesController {
     const raffle = await Raffle.query().where('id', params.id).firstOrFail()
     const prizes = await raffle.related('prizes').query()
     const user = await User.query().where('id', raffle.userId).firstOrFail()
-    return view.render('raffles/show', { raffle, prizes, user })
+
+    let winners: Array<Object> = []
+
+    for (const prize of prizes) {
+      if (prize.winningTicketId) {
+        const ticket = await Ticket.query().where('id', prize.winningTicketId).firstOrFail()
+        const user = await User.query().where('id', ticket.userId).firstOrFail()
+        const obj = {
+          prizeId: prize.id,
+          name: user.name,
+        }
+        winners.push(obj)
+      }
+    }
+
+    return view.render('raffles/show', { raffle, prizes, user, winners })
   }
 
   public async edit({ view, params }: HttpContextContract) {
@@ -119,6 +135,7 @@ export default class RafflesController {
             .update({ winning_ticket_id: ticketId })
           raffle.tickets.splice(numeroSorteio, 1)
         }
+        await Raffle.query().where('id', raffle.id).update({ drawn: true })
       }
 
       return response.redirect().toRoute('raffles.show', { id: raffle.id })
@@ -139,8 +156,12 @@ export default class RafflesController {
     }
 
     if (data.description) {
-      if (data.description.length > 45) {
-        this.registerError(errors, 'description', 'A descrição precisa ter no máximo 45 caracteres')
+      if (data.description.length > 100) {
+        this.registerError(
+          errors,
+          'description',
+          'A descrição precisa ter no máximo 100 caracteres'
+        )
       }
     }
 

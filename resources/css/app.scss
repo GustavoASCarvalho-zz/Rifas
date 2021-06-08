@@ -47,3 +47,8 @@ html {
     min-height: 320px;
   }
 }
+
+#number {
+  border-left: 1px dashed #fff;
+  writing-mode: vertical-rl;
+}
