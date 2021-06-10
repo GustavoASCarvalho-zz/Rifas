@@ -20,7 +20,7 @@ export default class HomeController {
       userJoinRaffles: false,
     }
 
-    // tickets em que o usuario participa
+    // tickets em que o usuário participa
 
     if (user?.id) {
       rafflesTickets = await Raffle.query().preload('tickets', (ticketQuery) => {
@@ -107,21 +107,3 @@ export default class HomeController {
     return view.render('home/about')
   }
 }
-
-/*
- private time = (raffle) => {
-    const secondsDiff = (raffle.raffleDate.getTime() - Date.now()) / 1000
-    let timeTo
-    if (secondsDiff >= 0) {
-      if (secondsDiff / 3600 > 24) {
-        timeTo = `${(secondsDiff / 3600 / 24).toFixed(1)} dias`
-      } else if (secondsDiff / 3600 < 1) {
-        timeTo = `${(secondsDiff / 60).toFixed(1)} minutos`
-      } else {
-        timeTo = `${(secondsDiff / 3600).toFixed(1)} horas`
-      }
-    }
-    return timeTo
-  }
-  
-  */

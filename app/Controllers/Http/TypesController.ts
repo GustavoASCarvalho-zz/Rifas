@@ -2,7 +2,6 @@ import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Type from 'App/Models/Type'
 
 export default class TypesController {
-  public async index({}: HttpContextContract) {}
 
   public async create({ view, auth, response }: HttpContextContract) {
     if (!auth.user?.admin) {
@@ -25,14 +24,6 @@ export default class TypesController {
     }
     response.redirect().toRoute('home.index')
   }
-
-  public async show({}: HttpContextContract) {}
-
-  public async edit({}: HttpContextContract) {}
-
-  public async update({}: HttpContextContract) {}
-
-  public async destroy({}: HttpContextContract) {}
 
   private validate(data, session): Boolean {
     const errors = {}

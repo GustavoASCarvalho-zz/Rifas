@@ -88,8 +88,11 @@ export default class RafflesController {
     return view.render('raffles/show', { raffle, prizes, user, winners })
   }
 
-  public async edit({ view, params }: HttpContextContract) {
+  public async edit({ view, params, response }: HttpContextContract) {
     const raffle = await Raffle.query().where('id', params.id).firstOrFail()
+    if (raffle.raffleDate) {
+      response.redirect().back()
+    }
     const tickets = await raffle.related('tickets').query()
     return view.render('raffles/edit', { raffle, tickets })
   }
@@ -120,7 +123,11 @@ export default class RafflesController {
       })
       .firstOrFail()
 
-    if (auth.user?.id === raffle.userId && new Date(raffle.raffleDate).getDate() <= Date.now()) {
+    if (
+      auth.user?.id === raffle.userId &&
+      new Date(raffle.raffleDate).getDate() <= Date.now() &&
+      !raffle.drawn
+    ) {
       await raffle.load('prizes')
 
       for (let i = 0; i < raffle.prizes.length; i++) {
@@ -191,7 +198,7 @@ export default class RafflesController {
       this.registerError(
         errors,
         'probableRaffleDate',
-        'Provavel data de sorteio deve ser depois da data final de vendas'
+        'Provável data de sorteio deve ser depois da data final de vendas'
       )
     }
 

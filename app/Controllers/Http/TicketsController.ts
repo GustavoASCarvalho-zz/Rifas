@@ -4,14 +4,15 @@ import Ticket from 'App/Models/Ticket'
 import User from 'App/Models/User'
 
 export default class TicketsController {
-  public async index({}: HttpContextContract) {}
 
-  public async create({}: HttpContextContract) {}
+  public async show({ view, params, request, response }: HttpContextContract) {
 
-  public async store({}: HttpContextContract) {}
-
-  public async show({ view, params, request }: HttpContextContract) {
     const raffle = await Raffle.query().where('id', params.id).firstOrFail()
+
+    if(new Date(raffle.endSaleDate).getTime() <= Date.now() || new Date(raffle.initialSaleDate).getTime() >= Date.now()) {
+      response.redirect().back()
+    }
+
     const users = await User.query()
     let pag = request.input('pag', 1)
     const limit = 100
@@ -24,13 +25,11 @@ export default class TicketsController {
   }
 
   public async buy({ params, response, auth }: HttpContextContract) {
+    const raffle = await Raffle.query().where('id', params.ticketId).firstOrFail()
+    if(new Date(raffle.endSaleDate).getTime() <= Date.now() || new Date(raffle.initialSaleDate).getTime() >= Date.now()) {
+      response.redirect().back()
+    }
     await Ticket.query().where('id', params.ticketId).update({ user_id: auth.user?.id })
     return response.redirect().toRoute('tickets.show', { id: params.id, qs: { pag: 1 } })
   }
-
-  public async edit({}: HttpContextContract) {}
-
-  public async update({}: HttpContextContract) {}
-
-  public async destroy({}: HttpContextContract) {}
 }

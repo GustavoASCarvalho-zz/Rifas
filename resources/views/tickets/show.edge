@@ -26,13 +26,13 @@
             <li class="page-item"><a class="page-link bg-color-5 text-color-2 border-color-5" href="?pag={{pag}}">{{pag}}</a><li>
 
             <li class="page-item 
-            @if(pag == tam)
+            @if(pag == Math.ceil(tam))
             disabled
             @endif
             "><a class="page-link bg-color-1 text-color-2 border-color-1" href="?pag={{pag+1}}">{{pag+1}}</a></li>
 
             <li class="page-item"
-            @if(pag+2 >= tam)
+            @if(pag+2 >= Math.ceil(tam))
             hidden
             @endif
             ><a class="page-link bg-color-1 text-color-2 border-color-1" href="?pag={{pag+2}}">{{pag+2}}</a><li>
@@ -40,7 +40,7 @@
             <li 
             class="
             page-item
-            @if(pag == tam)
+            @if(pag == Math.ceil(tam))
             disabled
             @endif
             "><a class="page-link bg-color-1 text-color-2 border-color-1" href="?pag={{pag+1}}">Next</a></li>
@@ -99,37 +99,37 @@
             disabled
             @endif
             "><a class="page-link bg-color-1 text-color-2 border-color-1" href="?pag={{pag-1}}">Previous</a></li>
-    
+
             <li class="page-item"
             @if(pag-2 <= 0)
             hidden
             @endif
             ><a class="page-link bg-color-1 text-color-2 border-color-1" href="?pag={{pag-2}}">{{pag-2}}</a><li>
-    
+
             <li class="page-item
             @if(pag == 1)
             disabled
             @endif
             "><a class="page-link bg-color-1 text-color-2 border-color-1" href="?pag={{pag-1}}">{{pag-1}}</a><li>
-    
+
             <li class="page-item"><a class="page-link bg-color-5 text-color-2 border-color-5" href="?pag={{pag}}">{{pag}}</a><li>
-    
+
             <li class="page-item 
-            @if(pag == tam)
+            @if(pag == Math.ceil(tam))
             disabled
             @endif
             "><a class="page-link bg-color-1 text-color-2 border-color-1" href="?pag={{pag+1}}">{{pag+1}}</a></li>
-    
+
             <li class="page-item"
-            @if(pag+2 >= tam)
+            @if(pag+2 >= Math.ceil(tam))
             hidden
             @endif
             ><a class="page-link bg-color-1 text-color-2 border-color-1" href="?pag={{pag+2}}">{{pag+2}}</a><li>
-    
+
             <li 
             class="
             page-item
-            @if(pag == tam)
+            @if(pag == Math.ceil(tam))
             disabled
             @endif
             "><a class="page-link bg-color-1 text-color-2 border-color-1" href="?pag={{pag+1}}">Next</a></li>

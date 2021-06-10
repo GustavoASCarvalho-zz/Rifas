@@ -46,14 +46,13 @@ Na raiz do projeto
 - [x] Criação de rotas primarias (Home, About)
 - [x] Implementação do [Bootstrap](https://getbootstrap.com/)
 - [x] Implementação do banco de dados Postgresql
-- [x] Models e imigrations aplicados
+- [x] Models e migrations aplicados
 - [x] Autenticação adicionada
 - [x] Atribuição de relações
 - [x] Criação de um seeder paro banco de dados
-- [ ] ???
-- [ ] Estilização de paginas
-- [ ] ???
-- [ ] ???
+- [x] Estilização de paginas
+- [x] Adicionado validações de formulários
+- [x] Adicionado bibliotecas de segurança
 
 ## Participantes
 
