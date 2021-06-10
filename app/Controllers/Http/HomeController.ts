@@ -6,12 +6,13 @@ import User from 'App/Models/User'
 export default class HomeController {
   public async index({ view, auth }: HttpContextContract) {
     const prizes = await Prize.query()
-    const raffles = await Raffle.query()
+    const raffles = await Raffle.query().preload('tickets')
     const user = auth.user
     const users = await User.query()
 
     let rafflesTickets: Array<Raffle> = []
     let userJoinRaffles: Array<Raffle> = []
+    let ticketsAndUsersJoinRaffles: Array<Object> = []
     let userAbout: Array<Object> = []
     let timeToRaffleDate: Array<Object> = []
     let raffleAbout = {
@@ -52,7 +53,27 @@ export default class HomeController {
 
     for (const raffle of raffles) {
       if (user?.id === raffle.userId) raffleAbout.userHaveRaffles = true
+
       if (raffle.raffleDate) {
+        let numberOfTickets = 0
+        let usersId: Array<number> = []
+        for (const tickets of raffle.tickets) {
+          if (tickets.userId) {
+            if (!usersId.some((x) => x === tickets.userId)) {
+              usersId.push(tickets.userId)
+            }
+            numberOfTickets++
+          }
+        }
+
+        let o = {
+          raffleId: raffle.id,
+          ticketsJoin: numberOfTickets,
+          usersJoin: usersId.length,
+        }
+
+        ticketsAndUsersJoinRaffles.push(o)
+
         if (
           new Date(raffle.endSaleDate).getTime() >= Date.now() &&
           Date.now() >= new Date(raffle.initialSaleDate).getTime()
@@ -101,6 +122,7 @@ export default class HomeController {
       userAbout,
       timeToRaffleDate,
       raffleAbout,
+      ticketsAndUsersJoinRaffles,
     })
   }
   public async about({ view }: HttpContextContract) {

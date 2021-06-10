@@ -4,12 +4,13 @@ import Ticket from 'App/Models/Ticket'
 import User from 'App/Models/User'
 
 export default class TicketsController {
-
   public async show({ view, params, request, response }: HttpContextContract) {
-
     const raffle = await Raffle.query().where('id', params.id).firstOrFail()
 
-    if(new Date(raffle.endSaleDate).getTime() <= Date.now() || new Date(raffle.initialSaleDate).getTime() >= Date.now()) {
+    if (
+      new Date(raffle.endSaleDate).getTime() <= Date.now() ||
+      new Date(raffle.initialSaleDate).getTime() >= Date.now()
+    ) {
       response.redirect().back()
     }
 
@@ -25,8 +26,11 @@ export default class TicketsController {
   }
 
   public async buy({ params, response, auth }: HttpContextContract) {
-    const raffle = await Raffle.query().where('id', params.ticketId).firstOrFail()
-    if(new Date(raffle.endSaleDate).getTime() <= Date.now() || new Date(raffle.initialSaleDate).getTime() >= Date.now()) {
+    const raffle = await Raffle.query().where('id', params.id).firstOrFail()
+    if (
+      new Date(raffle.endSaleDate).getTime() <= Date.now() ||
+      new Date(raffle.initialSaleDate).getTime() >= Date.now()
+    ) {
       response.redirect().back()
     }
     await Ticket.query().where('id', params.ticketId).update({ user_id: auth.user?.id })
