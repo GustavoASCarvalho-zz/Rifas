@@ -136,8 +136,6 @@ export default class HomeController {
       }
     }
 
-    console.log(timeToRaffleDate)
-
     return view.render('home/index', {
       raffles,
       users,
