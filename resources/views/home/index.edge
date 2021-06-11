@@ -12,10 +12,20 @@
     </h2>
     <p class="text-center text-color-1 fs-5">Conheça nosso site de Rifas! <span class="text-color-2">Crie</span>, <span class="text-color-2">compre</span> e <span class="text-color-2">participe<span>!</p>
         
+        @if(raffleAbout.win)
+            <div class="alert alert-success" role="alert">
+                Seu ultimo prêmio ganho: Rifa <a class="link-success" href="{{ route('raffles.show', {id: lastWin.raffleId} )}}">
+                    @each(raffle in raffles)
+                        @if(raffle.id == lastWin.raffleId)
+{{raffle.title}}
+                        @endif
+                    @endeach
+                </a>
+            </div>
+        @endif
+
         @if(raffleAbout.userHaveRaffles)
             
-            {{inspect(ticketsAndUsersJoinRaffles)}}
-
             <h3 class="text-center text-color-2 my-5">Rifas que você criou</h3>
             
             <div class="row">
@@ -35,40 +45,45 @@
                                         <h5 class="card-title my-1 text-center  text-color-2 text-wrap">{{ raffle.title }}</h5>
                                         <p class="card-text text-center text-color-2"> {{ raffle.description || 'sem descrição'}}</p>
                                     </div>
+                                    
+                                    <div class="bg-color-4 rounded py-2 my-1">  
+                                        <p class="card-text text-center my-1 text-color-2">-</p>
 
-                                    <div class="bg-color-4 rounded py-2 my-2">
-
-                                        @each(time in timeToRaffleDate)
-                                            @if(time.raffleId == raffle.id)
-
-                                                @if(time.timeRaffleDate)
-
-                                                    <p class="card-text text-center my-1 text-color-2">
-                                                        @if(time.timeRaffleDate.days > 1)
-                                                            {{time.timeRaffleDate.days}} dias para o sorteio
-                                                        @elseif(time.timeRaffleDate.hours > 1)
-                                                            {{time.timeRaffleDate.hours}} horas para o sorteio
-                                                        @elseif(time.timeRaffleDate.minutes > 1)
-                                                            {{time.timeRaffleDate.minutes}} minutos para o sorteio 
-                                                        @endif
-                                                    </p>
-
-                                                @endif
-                                                <p class="card-text text-center my-1 text-color-2">
-                                                    @if(time.timeEndSaleDate.days > 1)
-                                                        {{time.timeEndSaleDate.days}} dias para o fim das vendas
-                                                    @elseif(time.timeEndSaleDate.hours > 1)
-                                                        {{time.timeEndSaleDate.hours}} horas para o fim das vendas
-                                                    @elseif(time.timeEndSaleDate.minutes > 1)
-                                                        {{time.timeEndSaleDate.minutes}} minutos para o fim das vendas
+                                            @each(time in timeToRaffleDate)
+                                                @if(time.raffleId == raffle.id)
+                                                    @if(time.timeRaffleDate && time.timeRaffleDate.seconds >= 0)
+                                                        <p class="card-text text-center my-1 text-color-2">
+                                                            @if(time.timeRaffleDate.days > 1)
+                                                                {{time.timeRaffleDate.days}} dias para o sorteio
+                                                            @elseif(time.timeRaffleDate.hours > 1)
+                                                                {{time.timeRaffleDate.hours}} horas para o sorteio
+                                                            @elseif(time.timeRaffleDate.minutes > 1)
+                                                                {{time.timeRaffleDate.minutes}} minutos para o sorteio
+                                                            @else
+                                                                {{time.timeRaffleDate.seconds}} segundos para o sorteio 
+                                                            @endif
+                                                        </p>
                                                     @endif
-                                                </p>
-                                            @endif
-                                        @endeach
-        
+                                                    @if(time.timeEndSaleDate.seconds >= 0)
+                                                        <p class="card-text text-center my-1 text-color-2">
+                                                            @if(time.timeEndSaleDate.days > 1)
+                                                                {{time.timeEndSaleDate.days}} dias para o fim das vendas
+                                                            @elseif(time.timeEndSaleDate.hours > 1)
+                                                                {{time.timeEndSaleDate.hours}} horas para o fim das vendas
+                                                            @elseif(time.timeEndSaleDate.minutes > 1)
+                                                                {{time.timeEndSaleDate.minutes}} minutos para o fim das vendas
+                                                            @else
+                                                                {{time.timeEndSaleDate.seconds}} segundos para o fim das vendas
+                                                            @endif
+                                                        </p>
+                                                    @endif
+                                                @endif
+                                            @endeach
+                                        
+                                        <p class="card-text text-center my-1 text-color-2">-</p>
                                     </div>
 
-                                    <div class="bg-color-4 rounded py-2 mb-2">
+                                    <div class="bg-color-4 rounded py-2 my-1">
                                         <h5 class="card-title my-1 fs-6 text-center text-color-2">Prêmios</h5>
                                         @each(prize in prizes)
                                             @if(prize.raffleId == raffle.id)
@@ -77,7 +92,12 @@
                                         @endeach
                                     </div>
                                     <div class="mt-auto mx-auto">
-                                        <a href="{{ route('raffles.show', {id: raffle.id} )}}" class="btn btn-color-4 m-1 ">Ver</a>
+                                        
+                                        @if(raffle.drawn)
+                                            <a href="{{ route('raffles.show', {id: raffle.id} )}}" class="btn btn-color-4 m-1 ">Ver Ganhadores</a>
+                                        @else
+                                            <a href="{{ route('raffles.show', {id: raffle.id} )}}" class="btn btn-color-4 m-1 ">Ver</a>
+                                        @endif
 
                                         @if(raffle.raffleDate)
                                             @if(new Date(raffle.raffleDate).getTime() <= Date.now() && !raffle.drawn)
@@ -117,36 +137,44 @@
                             </div>
 
                             <div class="bg-color-4 rounded py-2 my-2">
-
+                                <p class="card-text text-center my-1 text-color-2">-</p>
                                 @each(time in timeToRaffleDate)
                                     @if(time.raffleId == userJoinRaffle.id)
-                                    <p class="card-text text-center my-1 text-color-2">
-                                        @if(time.timeRaffleDate.days > 1)
-                                            {{time.timeRaffleDate.days}} dias para o sorteio
-                                        @elseif(time.timeRaffleDate.hours > 1)
-                                            {{time.timeRaffleDate.hours}} horas para o sorteio
-                                        @elseif(time.timeRaffleDate.minutes > 1)
-                                            {{time.timeRaffleDate.minutes}} minutos para o sorteio 
+                                        @if(time.timeRaffleDate.seconds >= 0)
+                                            <p class="card-text text-center my-1 text-color-2">
+                                                @if(time.timeRaffleDate.days > 1)
+                                                    {{time.timeRaffleDate.days}} dias para o sorteio
+                                                @elseif(time.timeRaffleDate.hours > 1)
+                                                    {{time.timeRaffleDate.hours}} horas para o sorteio
+                                                @elseif(time.timeRaffleDate.minutes > 1)
+                                                    {{time.timeRaffleDate.minutes}} minutos para o sorteio 
+                                                @else
+                                                    {{time.timeRaffleDate.seconds}} segundos para o sorteio 
+                                                @endif
+                                            </p>
                                         @endif
-                                    </p>
-                                    <p class="card-text text-center my-1 text-color-2">
-                                        @if(time.timeEndSaleDate.days > 1)
-                                            {{time.timeEndSaleDate.days}} dias para o fim das vendas
-                                        @elseif(time.timeEndSaleDate.hours > 1)
-                                            {{time.timeEndSaleDate.hours}} horas para o fim das vendas
-                                        @elseif(time.timeEndSaleDate.minutes > 1)
-                                            {{time.timeEndSaleDate.minutes}} minutos para o fim das vendas
+                                        @if(time.timeEndSaleDate.seconds >= 0)
+                                            <p class="card-text text-center my-1 text-color-2">
+                                                @if(time.timeEndSaleDate.days > 1)
+                                                    {{time.timeEndSaleDate.days}} dias para o fim das vendas
+                                                @elseif(time.timeEndSaleDate.hours > 1)
+                                                    {{time.timeEndSaleDate.hours}} horas para o fim das vendas
+                                                @elseif(time.timeEndSaleDate.minutes > 1)
+                                                    {{time.timeEndSaleDate.minutes}} minutos para o fim das vendas
+                                                @else
+                                                    {{time.timeEndSaleDate.seconds}} segundos para o fim das vendas                                             
+                                                @endif
+                                            </p>
                                         @endif
-                                    </p>
                                     @endif
                                 @endeach
-
+                                <p class="card-text text-center my-1 text-color-2">-</p>
                             </div>
 
                             <div class="bg-color-4 rounded py-2 mb-2">
                                 @each(userAbt in userAbout)
                                     @if(userAbt.raffleId == userJoinRaffle.id)
-                                        <p class="card-title my-1 text-center  text-color-2 text-wrap">Você Gastou {{userAbt.amountSpent}} Reais</p>
+                                        <p class="card-title my-1 text-center  text-color-2 text-wrap">Você Gastou {{userAbt.amountSpent.toFixed(1)}} Reais</p>
                                         <p class="card-text text-center text-color-2">comprando {{userAbt.qtd}} rifas</p>
                                     @endif
                                 @endeach
@@ -161,9 +189,13 @@
                                 @endeach
                             </div>
                             <div class="mt-auto mx-auto">
-                                <a href="{{ route('raffles.show', {id: userJoinRaffle.id} )}}" class="btn m-1 btn-color-4">Ver</a>
-                                @if(!userJoinRaffle.drawn)
-                                    <a href="{{ route('tickets.show', {id: userJoinRaffle.id} )}}" class="btn m-1 btn-success">Comprar</a>
+                                @if(userJoinRaffle.drawn)
+                                    <a href="{{ route('raffles.show', {id: userJoinRaffle.id} )}}" class="btn m-1 btn-color-4">Ver ganhadores</a>
+                                @else
+                                    <a href="{{ route('raffles.show', {id: userJoinRaffle.id} )}}" class="btn m-1 btn-color-4">Ver</a>
+                                    @if(new Date(userJoinRaffle.raffleDate).getTime() >= Date.now())
+                                        <a href="{{ route('tickets.show', {id: userJoinRaffle.id} )}}" class="btn m-1 btn-success">Comprar</a>
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -186,7 +218,7 @@
                         <div class="card w-100 bg-color-2">
                             <div class="card-body d-flex flex-column">
                                 @if(raffle.drawn)
-                                    <span class="badge bg-warning align-self-end mb-1">Ja sorteada</span>
+                                    <span class="badge bg-warning align-self-end my-1">Ja sorteada</span>
                                 @else
                                     @each(user in users)
                                         @if(user.id == raffle.userId)
@@ -195,40 +227,56 @@
                                     @endeach
                                 @endif
 
-                                <div class="bg-color-4 rounded py-2">
+                                <div class="bg-color-4 rounded py-2 my-1">
                                     <h5 class="card-title my-1 text-center  text-color-2 text-wrap">{{ raffle.title }}</h5>
                                     <p class="card-text text-center text-color-2"> {{ raffle.description || 'sem descrição'}}</p>
                                 </div>
 
-                                
-                                <div class="bg-color-4 rounded py-2 my-2">
-
-                                    @each(time in timeToRaffleDate)
-                                        @if(time.raffleId == raffle.id)
-                                        <p class="card-text text-center my-1 text-color-2">
-                                            @if(time.timeRaffleDate.days > 1)
-                                                {{time.timeRaffleDate.days}} dias para o sorteio
-                                            @elseif(time.timeRaffleDate.hours > 1)
-                                                {{time.timeRaffleDate.hours}} horas para o sorteio
-                                            @elseif(time.timeRaffleDate.minutes > 1)
-                                                {{time.timeRaffleDate.minutes}} minutos para o sorteio 
-                                            @endif
-                                        </p>
-                                        <p class="card-text text-center my-1 text-color-2">
-                                            @if(time.timeEndSaleDate.days > 1)
-                                                {{time.timeEndSaleDate.days}} dias para o fim das vendas
-                                            @elseif(time.timeEndSaleDate.hours > 1)
-                                                {{time.timeEndSaleDate.hours}} horas para o fim das vendas
-                                            @elseif(time.timeEndSaleDate.minutes > 1)
-                                                {{time.timeEndSaleDate.minutes}} minutos para o fim das vendas
-                                            @endif
-                                        </p>
+                                <div class="bg-color-4 rounded py-2 my-1">
+                                    @each(ticketAndUsers in ticketsAndUsersJoinRaffles)
+                                        @if(ticketAndUsers.raffleId == raffle.id)
+                                            <p class="ps-3 card-text text-start text-color-2"> Tickets já comprados: {{ ticketAndUsers.ticketsJoin }}</p>
+                                            <p class="ps-3 card-text text-start text-color-2"> Usuarios participando: {{ ticketAndUsers.usersJoin }}</p>
                                         @endif
                                     @endeach
-    
+                                </div>
+                                
+                                <div class="bg-color-4 rounded py-2 my-1">
+                                    <p class="card-text text-center my-1 text-color-2">-</p>
+                                    @each(time in timeToRaffleDate)
+                                        @if(time.raffleId == raffle.id)
+                                            @if(time.timeRaffleDate.seconds >= 0)
+                                            <p class="card-text text-center my-1 text-color-2">
+                                                @if(time.timeRaffleDate.days > 1)
+                                                    {{time.timeRaffleDate.days}} dias para o sorteio
+                                                @elseif(time.timeRaffleDate.hours > 1)
+                                                    {{time.timeRaffleDate.hours}} horas para o sorteio
+                                                @elseif(time.timeRaffleDate.minutes > 1)
+                                                    {{time.timeRaffleDate.minutes}} minutos para o sorteio 
+                                                @else
+                                                    {{time.timeRaffleDate.seconds}} segundos para o sorteio 
+                                                @endif
+                                            </p>
+                                            @endif  
+                                            @if(time.timeEndSaleDate.seconds >= 0)
+                                                <p class="card-text text-center my-1 text-color-2">
+                                                    @if(time.timeEndSaleDate.days > 1)
+                                                        {{time.timeEndSaleDate.days}} dias para o fim das vendas
+                                                    @elseif(time.timeEndSaleDate.hours > 1)
+                                                        {{time.timeEndSaleDate.hours}} horas para o fim das vendas
+                                                    @elseif(time.timeEndSaleDate.minutes > 1)
+                                                        {{time.timeEndSaleDate.minutes}} minutos para o fim das vendas
+                                                    @else
+                                                        {{time.timeEndSaleDate.seconds}} segundos para o fim das vendas 
+                                                    @endif
+                                                </p>
+                                            @endif
+                                        @endif
+                                    @endeach
+                                    <p class="card-text text-center my-1 text-color-2">-</p>
                                 </div>
 
-                                <div class="bg-color-4 rounded py-2 mb-2">
+                                <div class="bg-color-4 rounded py-2 my-1">
                                     <h5 class="card-title my-1 fs-6 text-center text-color-2">Prêmios</h5>
                                     @each(prize in prizes)
                                         @if(prize.raffleId == raffle.id)

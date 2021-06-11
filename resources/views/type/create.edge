@@ -3,7 +3,7 @@
 @section('content')
     <form class="row g-3" action="{{ route('types.store') }}" method="post">
         {{ csrfField() }}
-        <h3 class="text-center text-color-1 mt-5 fs-1">Cadastrar rifas</h3>
+        <h3 class="text-center text-color-1 mt-5 fs-1">Cadastrar Tipos</h3>
         <div class="col-md-6 col-12">
             @if(flashMessages.has('errors.description'))
                 <label for="description" class="form-label text-color-1">Descrição</label>

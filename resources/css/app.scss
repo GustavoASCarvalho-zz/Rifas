@@ -25,6 +25,7 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-icons/font/bootstrap-icons.css';
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 
 img {
   margin: -20px 0;
@@ -51,4 +52,9 @@ html {
 #number {
   border-left: 1px dashed #fff;
   writing-mode: vertical-rl;
+}
+
+h3 {
+  font-family: 'Lobster', cursive;
+  font-size: 40px;
 }

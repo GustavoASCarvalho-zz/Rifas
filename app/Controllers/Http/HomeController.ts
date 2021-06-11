@@ -1,24 +1,27 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Prize from 'App/Models/Prize'
 import Raffle from 'App/Models/Raffle'
+import Ticket from 'App/Models/Ticket'
 import User from 'App/Models/User'
 
 export default class HomeController {
   public async index({ view, auth }: HttpContextContract) {
     const prizes = await Prize.query()
     const raffles = await Raffle.query().preload('tickets')
-    const user = auth.user
     const users = await User.query()
+    const user = auth.user
 
     let rafflesTickets: Array<Raffle> = []
     let userJoinRaffles: Array<Raffle> = []
     let ticketsAndUsersJoinRaffles: Array<Object> = []
     let userAbout: Array<Object> = []
     let timeToRaffleDate: Array<Object> = []
+    let lastWin
     let raffleAbout = {
       haveRaffles: false,
       userHaveRaffles: false,
       userJoinRaffles: false,
+      win: false,
     }
 
     // tickets em que o usuário participa
@@ -114,6 +117,27 @@ export default class HomeController {
       }
     }
 
+    if (raffleAbout.userJoinRaffles) {
+      for (const userJoinRaffle of userJoinRaffles) {
+        if (userJoinRaffle.drawn) {
+          await userJoinRaffle.load('prizes')
+          for (const prize of userJoinRaffle.prizes) {
+            const ticket = await Ticket.query().where('id', prize.winningTicketId).firstOrFail()
+            if (ticket.userId === user?.id) {
+              lastWin = {
+                raffleId: userJoinRaffle.id,
+                placing: prize.placing,
+                prize: prize.description,
+              }
+              raffleAbout.win = true
+            }
+          }
+        }
+      }
+    }
+
+    console.log(timeToRaffleDate)
+
     return view.render('home/index', {
       raffles,
       users,
@@ -123,6 +147,7 @@ export default class HomeController {
       timeToRaffleDate,
       raffleAbout,
       ticketsAndUsersJoinRaffles,
+      lastWin,
     })
   }
   public async about({ view }: HttpContextContract) {
