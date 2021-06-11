@@ -132,7 +132,7 @@ export default class RafflesController {
 
       for (let i = 0; i < raffle.prizes.length; i++) {
         if (raffle.tickets.length > 0) {
-          //pegar um numero que não seja repetido
+          //pegar um numero que não seja repetidx
           const numeroSorteio = Math.floor(Math.random() * raffle.tickets.length)
           const ticketId = raffle.tickets[numeroSorteio].id
 
