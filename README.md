@@ -3,7 +3,9 @@
   <h1 align="center">Gerênciamento de rifas</h1>
 </p>
 
-Você acaba de encontrar nosso repositório de gerenciamento de rifas no GitHub, nele você podera cadastrar suas rifas com seus respectivos prêmios, vender e realizar sorteios
+Você acaba de encontrar nosso repositório de gerenciamento de rifas no GitHub, nele você poderá cadastrar suas rifas com seus respectivos prêmios, vender e realizar sorteios
+Site: https://rifasapp.herokuapp.com/
+Apresentação: https://youtu.be/6e_NPwY1Tkw
 
 ## Index
 
@@ -35,7 +37,7 @@ Na raiz do projeto
 ## Classes
 
 - Rifas
-- Usuarios
+- Usuários
 - Tipos
 - Prêmios
 - Bilhetes
